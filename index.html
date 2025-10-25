@@ -7,22 +7,22 @@
   <title>Gabriel Fortin — Portfolio</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="relative min-h-screen bg-dawn text-slate-900 antialiased transition dark:bg-night dark:text-slate-100">
-  <div class="pointer-events-none fixed inset-0 -z-10">
+<body class="relative min-h-screen antialiased transition bg-dawn text-slate-900 dark:bg-night dark:text-slate-100">
+  <div class="fixed inset-0 pointer-events-none -z-10">
     <div class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-accent-300/40 blur-[120px] dark:bg-accent-500/25"></div>
     <div class="absolute right-[-120px] top-1/3 h-[420px] w-[420px] rounded-full bg-purple-400/30 blur-[120px] dark:bg-purple-500/25"></div>
     <div class="absolute bottom-[-160px] left-1/4 h-[380px] w-[380px] rounded-full bg-indigo-300/30 blur-[120px] dark:bg-indigo-500/20"></div>
   </div>
 
-  <header class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl transition dark:border-slate-800/70 dark:bg-slate-900/70">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
-      <a href="#home" class="group inline-flex items-center gap-3" aria-label="Home">
+  <header class="sticky top-0 z-40 transition border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+    <div class="flex items-center justify-between max-w-6xl gap-6 px-6 py-4 mx-auto">
+      <a href="#home" class="inline-flex items-center gap-3 group" aria-label="Home">
         <!-- TODO: Replace initials -->
-        <span class="flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-accent-400 via-indigo-400 to-indigo-600 text-base font-semibold text-night shadow-glow transition group-hover:scale-105">GF</span>
-        <span class="text-base font-semibold tracking-tight text-slate-800 transition group-hover:text-slate-950 dark:text-slate-100 dark:group-hover:text-white">Gabriel Fortin</span>
+        <span class="flex items-center justify-center w-12 h-12 text-base font-semibold transition rounded-3xl bg-gradient-to-br from-accent-400 via-indigo-400 to-indigo-600 text-night shadow-glow group-hover:scale-105">GF</span>
+        <span class="text-base font-semibold tracking-tight transition text-slate-800 group-hover:text-slate-950 dark:text-slate-100 dark:group-hover:text-white">Gabriel Fortin</span>
       </a>
 
-      <nav class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300" aria-label="Primary">
+      <nav class="items-center hidden gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300" aria-label="Primary">
         <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#home">Home</a>
         <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#about">About</a>
         <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#skills">Skills</a>
@@ -30,10 +30,10 @@
         <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#contact">Contact</a>
       </nav>
 
-      <a href="#contact" class="rounded-full bg-gradient-to-r from-accent-500 via-indigo-500 to-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/40 transition hover:-translate-y-1 hover:shadow-glow">Get in touch</a>
+      <a href="#contact" class="px-5 py-2 text-sm font-semibold text-white transition rounded-full shadow-lg bg-gradient-to-r from-accent-500 via-indigo-500 to-indigo-600 shadow-indigo-500/40 hover:-translate-y-1 hover:shadow-glow">Get in touch</a>
     </div>
 
-    <div class="flex items-center justify-center border-t border-slate-200/60 bg-white/70 px-6 py-3 text-xs font-medium text-slate-600 md:hidden dark:border-slate-800/60 dark:bg-slate-900/70 dark:text-slate-300">
+    <div class="flex items-center justify-center px-6 py-3 text-xs font-medium border-t border-slate-200/60 bg-white/70 text-slate-600 md:hidden dark:border-slate-800/60 dark:bg-slate-900/70 dark:text-slate-300">
       <div class="flex flex-wrap items-center justify-center gap-4">
         <a class="transition hover:text-accent-500" href="#home">Home</a>
         <a class="transition hover:text-accent-500" href="#about">About</a>
@@ -52,33 +52,33 @@
           <span class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500 shadow-sm dark:border-slate-800/70 dark:bg-slate-900/70 dark:text-slate-300">Engineer + AI Builder</span>
           <h1 class="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl dark:text-white">
             <!-- TODO: Replace headline with your name -->
-            Hi, I build <span class="bg-gradient-to-r from-accent-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">intelligent systems</span>.
+            Hi, I build <span class="text-transparent bg-gradient-to-r from-accent-500 via-indigo-500 to-purple-500 bg-clip-text">intelligent systems</span>.
           </h1>
           <p class="max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
             I build intelligent systems with clean design, solid engineering, and production-ready reliability.
             <!-- TODO: Replace with your positioning statement -->
           </p>
           <div class="flex flex-wrap items-center gap-4">
-            <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/30 transition hover:-translate-y-1 hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">Let’s collaborate</a>
-            <a href="#projects" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition hover:text-accent-600 dark:text-slate-300 dark:hover:text-accent-400">Explore projects →</a>
+            <a href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white transition rounded-full shadow-lg bg-slate-900 shadow-slate-900/30 hover:-translate-y-1 hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">Let’s collaborate</a>
+            <a href="#projects" class="inline-flex items-center gap-2 text-sm font-semibold transition text-slate-700 hover:text-accent-600 dark:text-slate-300 dark:hover:text-accent-400">Explore projects →</a>
           </div>
         </div>
 
         <!-- TODO: Update the file name and alt text to match your hero visual -->
         <div class="relative aspect-[4/3] w-full overflow-hidden rounded-[36px] border border-white/70 bg-gradient-to-br from-white via-slate-100 to-slate-200 shadow-2xl shadow-slate-900/10 dark:border-white/10 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
           <div class="absolute inset-0 bg-gradient-to-br from-accent-200/30 via-transparent to-transparent dark:from-accent-500/15"></div>
-          <img src="img/hero-preview.jpg" alt="Preview of flagship project" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-60 mix-blend-soft-light dark:from-black/60" aria-hidden="true"></div>
+          <img src="img/hero-preview.jpg" alt="Preview of flagship project" loading="lazy" class="absolute inset-0 object-cover w-full h-full" />
+          <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-60 mix-blend-soft-light dark:from-black/60" aria-hidden="true"></div>
         </div>
       </div>
     </section>
 
     <section id="about" class="relative py-24" aria-labelledby="about-title">
       <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-800"></div>
-      <div class="mx-auto max-w-5xl px-6">
+      <div class="max-w-5xl px-6 mx-auto">
         <h2 id="about-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">About</h2>
-        <div class="mt-12 grid gap-10 rounded-[32px] border border-slate-200/70 bg-white/85 p-10 shadow-card backdrop-blur-lg md:grid-cols-[1.5fr_1fr] dark:border-slate-800/70 dark:bg-slate-900/70">
-          <div class="space-y-6 text-slate-600 dark:text-slate-300">
+        <div class="grid gap-8 mt-12 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-10">
+          <div class="h-full space-y-6 glass-panel text-slate-700 dark:text-slate-200">
             <p class="text-lg leading-relaxed">
               <!-- TODO: Replace with your bio -->
               I’m a developer focused on building intelligent, production-ready systems that merge software engineering with artificial intelligence. My work spans full-stack web platforms and advanced AI pipelines, with a strong emphasis on automation, scalability, and real-time interaction.
@@ -86,14 +86,14 @@
             <p class="text-lg leading-relaxed">
               I thrive at the intersection of backend architecture and applied AI — designing systems that are not only robust and secure but also adaptive and responsive to complex, real-world demands.
             </p>
-            <ul class="grid gap-3 text-sm font-medium text-slate-700 sm:grid-cols-2 dark:text-slate-200">
-              <li class="flex items-center gap-2 rounded-xl border border-slate-200/70 bg-white/70 px-4 py-3 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/60"><span class="h-2 w-2 rounded-full bg-accent-500"></span>AI &amp; ML systems</li>
-              <li class="flex items-center gap-2 rounded-xl border border-slate-200/70 bg-white/70 px-4 py-3 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/60"><span class="h-2 w-2 rounded-full bg-indigo-500"></span>Full-stack product work</li>
-              <li class="flex items-center gap-2 rounded-xl border border-slate-200/70 bg-white/70 px-4 py-3 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/60"><span class="h-2 w-2 rounded-full bg-purple-500"></span>Infrastructure &amp; reliability</li>
-              <li class="flex items-center gap-2 rounded-xl border border-slate-200/70 bg-white/70 px-4 py-3 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/60"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Real-time systems</li>
+            <ul class="flex flex-wrap gap-3 pt-2 text-sm font-medium list-none">
+              <li><span class="chip">AI &amp; ML systems</span></li>
+              <li><span class="chip">Full-stack product work</span></li>
+              <li><span class="chip">Infrastructure &amp; reliability</span></li>
+              <li><span class="chip">Real-time systems</span></li>
             </ul>
           </div>
-          <aside class="space-y-5 rounded-[28px] border border-slate-200/70 bg-white/90 p-8 shadow-card backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-900/80" aria-labelledby="skills-title">
+          <aside class="h-full space-y-5 glass-panel" aria-labelledby="skills-title">
             <h3 id="skills-title" class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Skills Snapshot</h3>
             <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">C# · Python · Java · TypeScript · FastAPI · ASP.NET Core · React · REST APIs · SQLite · PostgreSQL · Docker · GCP · JWT Auth · AI Voice (Grok, Coqui XTTS) · DevOps &amp; Automation</p>
           </aside>
@@ -102,157 +102,157 @@
     </section>
 
     <section id="skills" class="relative py-24" aria-labelledby="skills-title-main">
-      <div class="mx-auto max-w-6xl px-6">
-        <div class="mx-auto max-w-3xl text-center">
+      <div class="max-w-6xl px-6 mx-auto">
+        <div class="max-w-3xl mx-auto text-center">
           <h2 id="skills-title-main" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">Technical Skills</h2>
           <p class="mt-4 text-base text-slate-600 dark:text-slate-300">Core technologies and tools I’ve mastered across my projects.</p>
         </div>
 
-        <div class="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div class="mt-16 glass-grid">
           <!-- TODO: Add or remove skills below -->
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
-            <div class="absolute -left-12 top-10 h-24 w-24 rounded-full bg-accent-300/30 blur-3xl transition group-hover:translate-x-6"></div>
-            <h3 class="relative text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Core Languages</h3>
-            <div class="relative mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">C#</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">Python</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">Java</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">JavaScript</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">TypeScript</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">HTML</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">CSS</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">Tailwind CSS</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-accent-500 group-hover:text-accent-600 dark:border-slate-700/60 dark:group-hover:border-accent-400 dark:group-hover:text-accent-300">Bash</span>
-            </div>
+          <article class="relative flex flex-col gap-6 group glass-panel glass-tight">
+            <div class="absolute w-24 h-24 transition rounded-full pointer-events-none -left-14 top-10 bg-accent-300/25 blur-3xl group-hover:translate-x-6"></div>
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Core Languages</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">C#</span></li>
+              <li><span class="chip">Python</span></li>
+              <li><span class="chip">Java</span></li>
+              <li><span class="chip">JavaScript</span></li>
+              <li><span class="chip">TypeScript</span></li>
+              <li><span class="chip">HTML</span></li>
+              <li><span class="chip">CSS</span></li>
+              <li><span class="chip">Tailwind CSS</span></li>
+              <li><span class="chip">Bash</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
-            <div class="absolute -right-16 top-16 h-28 w-28 rounded-full bg-indigo-300/25 blur-3xl transition group-hover:-translate-y-6"></div>
-            <h3 class="relative text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frameworks &amp; Tools</h3>
-            <div class="relative mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">ASP.NET Core</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">FastAPI</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">Forge (Minecraft)</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">Entity Framework Core</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">Gradle</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">Git</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1 transition group-hover:border-indigo-500 group-hover:text-indigo-600 dark:border-slate-700/60 dark:group-hover:border-indigo-400 dark:group-hover:text-indigo-300">VS Code</span>
-            </div>
+          <article class="relative flex flex-col gap-6 group glass-panel glass-tight">
+            <div class="absolute transition rounded-full pointer-events-none -right-14 top-16 h-28 w-28 bg-indigo-300/25 blur-3xl group-hover:-translate-y-6"></div>
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frameworks &amp; Tools</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">ASP.NET Core</span></li>
+              <li><span class="chip">FastAPI</span></li>
+              <li><span class="chip">Forge (Minecraft)</span></li>
+              <li><span class="chip">Entity Framework Core</span></li>
+              <li><span class="chip">Gradle</span></li>
+              <li><span class="chip">Git</span></li>
+              <li><span class="chip">VS Code</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Backend &amp; Databases</h3>
-            <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">SQLite</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">PostgreSQL (planned)</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">JSON configs</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">REST APIs</span>
-            </div>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">SQLite</span></li>
+              <li><span class="chip">PostgreSQL (planned)</span></li>
+              <li><span class="chip">JSON configs</span></li>
+              <li><span class="chip">REST APIs</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">AI &amp; Voice Integration</h3>
-            <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Grok API</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Coqui XTTS-v2</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">ElevenLabs</span>
-            </div>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Grok API</span></li>
+              <li><span class="chip">Coqui XTTS-v2</span></li>
+              <li><span class="chip">ElevenLabs</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frontend &amp; UI</h3>
-            <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Razor Pages</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Responsive CSS</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Flexbox</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Grid</span>
-            </div>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Razor Pages</span></li>
+              <li><span class="chip">Responsive CSS</span></li>
+              <li><span class="chip">Flexbox</span></li>
+              <li><span class="chip">Grid</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">DevOps &amp; Cloud</h3>
-            <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Google Cloud VM</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Caddy</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Systemd</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Docker (learning)</span>
-            </div>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Google Cloud VM</span></li>
+              <li><span class="chip">Caddy</span></li>
+              <li><span class="chip">Systemd</span></li>
+              <li><span class="chip">Docker (learning)</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Security &amp; Auth</h3>
-            <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">JWT</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Cookies</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">CSRF</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">CORS</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">API Keys</span>
-            </div>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">JWT</span></li>
+              <li><span class="chip">Cookies</span></li>
+              <li><span class="chip">CSRF</span></li>
+              <li><span class="chip">CORS</span></li>
+              <li><span class="chip">API Keys</span></li>
+            </ul>
           </article>
 
-          <article class="group relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 p-8 shadow-card backdrop-blur-lg transition hover:-translate-y-2 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Monitoring &amp; Debug</h3>
-            <div class="mt-6 flex flex-wrap gap-2 text-sm text-slate-600 dark:text-slate-300">
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Journalctl</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Postman</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Curl</span>
-              <span class="inline-flex items-center rounded-full border border-slate-200/70 px-3 py-1">Console Logs</span>
-            </div>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Journalctl</span></li>
+              <li><span class="chip">Postman</span></li>
+              <li><span class="chip">Curl</span></li>
+              <li><span class="chip">Console Logs</span></li>
+            </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="relative bg-gradient-to-b from-white via-white to-slate-100 py-24 dark:from-night dark:via-night dark:to-dusk" aria-labelledby="projects-title">
-      <div class="mx-auto max-w-6xl px-6">
+    <section id="projects" class="relative py-24 bg-gradient-to-b from-white via-white to-slate-100 dark:from-night dark:via-night dark:to-dusk" aria-labelledby="projects-title">
+      <div class="max-w-6xl px-6 mx-auto">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 id="projects-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">Projects</h2>
             <p class="mt-2 text-base text-slate-600 dark:text-slate-300">Highlights spanning AI-driven workflows, polished UI, and resilient infrastructure.</p>
           </div>
-          <a href="mailto:tdgf@icloud.com" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-accent-600 dark:text-slate-300 dark:hover:text-accent-400">Request full case studies →</a>
+          <a href="mailto:tdgf@icloud.com" class="inline-flex items-center gap-2 text-sm font-semibold transition text-slate-600 hover:text-accent-600 dark:text-slate-300 dark:hover:text-accent-400">Request full case studies →</a>
         </div>
 
-        <div class="mt-16 grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
+        <div class="grid gap-10 mt-16 sm:grid-cols-2 xl:grid-cols-3">
           <!-- Project card -->
-          <article class="group flex flex-col overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 shadow-card backdrop-blur-lg transition hover:-translate-y-3 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
-            <div class="relative aspect-video overflow-hidden">
-              <img src="img/project-one.jpg" alt="Project One interface" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-              <span class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></span>
-              <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm dark:bg-slate-900/75 dark:text-slate-200">AI · Automation · Voice · Ops · Infra · WebApp</span>
+          <article class="flex flex-col overflow-hidden group glass-panel glass-zero">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="img/project-one.jpg" alt="Project One interface" loading="lazy" class="object-cover w-full h-full transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 transition opacity-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent group-hover:opacity-100"></span>
+              <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · Automation · Voice · Ops · Infra · WebApp</span>
             </div>
-            <div class="flex flex-1 flex-col gap-4 px-6 py-6">
+            <div class="flex flex-col flex-1 gap-4 px-6 py-6">
               <h3 class="text-xl font-semibold text-slate-900 dark:text-white">CEObot</h3>
-              <p class="text-sm text-slate-600 dark:text-slate-300">AI-powered property management platform integrating voice (Twilio), admin dashboards, and automated tenant support.</p>
-              <a href="#" class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition hover:gap-3 dark:text-accent-400" aria-label="View details for Project One">View details →</a>
+              <p class="text-sm text-slate-600 dark:text-slate-300">AI-driven property management system automating tenant requests, voice intake, and admin workflows.</p>
+              <a href="#case-project-one" data-case-target="case-project-one" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project One">View details →</a>
             </div>
           </article>
 
           <!-- Project card -->
-          <article class="group flex flex-col overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 shadow-card backdrop-blur-lg transition hover:-translate-y-3 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
-            <div class="relative aspect-video overflow-hidden">
-              <img src="img/project-two.jpg" alt="Project Two interface" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-              <span class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></span>
-              <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm dark:bg-slate-900/75 dark:text-slate-200">AI · Game Integration · Voice · Agent · Realtime</span>
+          <article class="flex flex-col overflow-hidden group glass-panel glass-zero">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="img/project-two.jpg" alt="Project Two interface" loading="lazy" class="object-cover w-full h-full transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 transition opacity-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent group-hover:opacity-100"></span>
+              <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · Game Integration · Voice · Agent · Realtime</span>
             </div>
-            <div class="flex flex-1 flex-col gap-4 px-6 py-6">
-              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Companion Ai MC</h3>
-              <p class="text-sm text-slate-600 dark:text-slate-300">Minecraft-linked AI companion using Grok + Coqui XTTS for live voice interaction and memory-based responses.</p>
-              <a href="#" class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition hover:gap-3 dark:text-accent-400" aria-label="View details for Project Two">View details →</a>
+            <div class="flex flex-col flex-1 gap-4 px-6 py-6">
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Asuka AI</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300">Intelligent Minecraft companion using Grok + Coqui XTTS for live, context-aware voice interactions.</p>
+              <a href="#case-project-two" data-case-target="case-project-two" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project Two">View details →</a>
             </div>
           </article>
 
           <!-- Project card -->
-          <article class="group flex flex-col overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/85 shadow-card backdrop-blur-lg transition hover:-translate-y-3 hover:shadow-2xl dark:border-slate-800/70 dark:bg-slate-900/75">
-            <div class="relative aspect-video overflow-hidden">
-              <img src="img/project-three.jpg" alt="Project Three dashboard" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-              <span class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></span>
-              <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm dark:bg-slate-900/75 dark:text-slate-200">AI · DevTools · Full-Stack · Cloud · Apps</span>
+          <article class="flex flex-col overflow-hidden group glass-panel glass-zero">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="img/project-three.jpg" alt="Project Three dashboard" loading="lazy" class="object-cover w-full h-full transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 transition opacity-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent group-hover:opacity-100"></span>
+              <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · DevTools · Full-Stack · Cloud · Apps</span>
             </div>
-            <div class="flex flex-1 flex-col gap-4 px-6 py-6">
+            <div class="flex flex-col flex-1 gap-4 px-6 py-6">
               <h3 class="text-xl font-semibold text-slate-900 dark:text-white">VibeCoder</h3>
-              <p class="text-sm text-slate-600 dark:text-slate-300">Full-stack AI code assistant built with FastAPI, React, and AWS Bedrock for real-time code generation and debugging.</p>
-              <a href="#" class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition hover:gap-3 dark:text-accent-400" aria-label="View details for Project Three">View details →</a>
+              <p class="text-sm text-slate-600 dark:text-slate-300">Full-stack AI coding assistant built with FastAPI, React, and AWS Bedrock for live code generation and debugging.</p>
+              <a href="#case-project-three" data-case-target="case-project-three" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project Three">View details →</a>
             </div>
           </article>
 
@@ -261,27 +261,237 @@
       </div>
     </section>
 
+    <!-- Project case study overlays -->
+    <div id="case-project-one" class="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-project-one-title" aria-hidden="true">
+      <button type="button" class="overlay-backdrop" data-close-case aria-label="Close"></button>
+      <article class="overlay-content">
+        <header class="pr-4 space-y-4">
+          <span class="overlay-badge">Case Study</span>
+          <h3 id="case-project-one-title" class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">CEObot — AI-driven property management system</h3>
+          <p class="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">AI-driven property management system automating tenant requests, voice intake, and admin workflows.</p>
+        </header>
+        <div class="space-y-10 overlay-body">
+          <figure class="overlay-hero">
+            <img src="img/project-one.jpg" alt="Project One full-screen interface" class="object-cover w-full h-full" loading="lazy" />
+          </figure>
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Result</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">60% faster issue resolution</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Automated tenant intake and triage cut manual routing time in half after launch.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Scale</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">40+ services</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Real-time voice and ticket workflows synchronized across tenants, staff, and admin dashboards.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Stack</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">C# · ASP.NET Core · FastAPI · SQLite · Twilio Voice · REST APIs · JWT Auth · Google Cloud VM · Caddy</p>
+            </div>
+          </div>
+          <div class="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">Highlights</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Built a multi-portal web system unifying tenant, staff, and admin access with live status sync.</li>
+                <li>Integrated Twilio Voice for voicemail-to-ticket automation with smart transcription.
+                  Designed secure session handling using JWT cookies with CSRF and role-based access.</li>
+                <li>Deployed on a Google Cloud VM with Caddy SSL and persistent uptime monitoring.
+                  Developed a modular admin dashboard for staff tracking, ticket analytics, and automated reporting.</li>
+              </ul>
+            </div>
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">My role</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Led full-stack design, backend API architecture, and cloud deployment.</li>
+                <li>Handled authentication, database design, and voice integration pipeline.</li>
+                <li>Delivered production-ready reliability and user-tested UI polish.</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold transition border rounded-full border-slate-200/70 bg-white/70 text-slate-700 hover:-translate-y-1 hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200" data-close-case>Back to projects</button>
+        </div>
+      </article>
+    </div>
+
+    <div id="case-project-two" class="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-project-two-title" aria-hidden="true">
+      <button type="button" class="overlay-backdrop" data-close-case aria-label="Close"></button>
+      <article class="overlay-content">
+        <header class="pr-4 space-y-4">
+          <span class="overlay-badge">Case Study</span>
+          <h3 id="case-project-two-title" class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white"> Companion AI — Intelligent Minecraft companion</h3>
+          <p class="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">A responsive commerce flow engineered for clarity. Built a headless storefront with cinematic motion and instant feedback to mirror the polish of premium hardware launches.</p>
+        </header>
+        <div class="space-y-10 overlay-body">
+          <figure class="overlay-hero">
+            <img src="img/project-two.jpg" alt="Project Two responsive screens" class="object-cover w-full h-full" loading="lazy" />
+          </figure>
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">IMPACT</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Real-time engagement</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Fully in-game experience
+              Bridges player events, voice synthesis, and AI reasoning through a unified local FastAPI bridge.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">INTEGRATION</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Optimistic UI, GPU-accelerated product gallery, tactile haptics via Web Animations API.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Stack</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Java (Forge Mod) · Python (FastAPI) · Grok LLM · Coqui XTTS-v2 · JSON Memory · REST · Local TTS Pipeline</p>
+            </div>
+          </div>
+          <div class="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">HIGHLIGHTS</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Engineered bidirectional event flow between Minecraft and AI backend for real-time context.Designed memory-driven responses that evolve from in-game events and player behavior.</li>
+                <li>Integrated Coqui XTTS-v2 for ultra-natural TTS with dynamic cues.</li>
+                <li>Implemented cooldown, urgency, and affinity logic for autonomous character behavior.Built a modular event schema supporting expansion to new dimensions, mobs, and item events.</li>
+              </ul>
+            </div>
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">MY ROLE</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Sole developer and systems designer across mod, API, and AI layers.
+Handled architecture, local inference pipeline, and Grok integration.
+Optimized event latency and dialogue flow for immersion and performance.</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold transition border rounded-full border-slate-200/70 bg-white/70 text-slate-700 hover:-translate-y-1 hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200" data-close-case>Back to projects</button>
+        </div>
+      </article>
+    </div>
+
+    <div id="case-project-three" class="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-project-three-title" aria-hidden="true">
+      <button type="button" class="overlay-backdrop" data-close-case aria-label="Close"></button>
+      <article class="overlay-content">
+        <header class="pr-4 space-y-4">
+          <span class="overlay-badge">Case Study</span>
+          <h3 id="case-project-three-title" class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">VibeCoder — Full-stack AI coding assistant</h3>
+          <p class="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">Full-stack AI coding assistant built with FastAPI, React, and AWS Bedrock for live code generation and debugging.</p>
+        </header>
+        <div class="space-y-10 overlay-body">
+          <figure class="overlay-hero">
+            <img src="img/project-three.jpg" alt="Project Three infrastructure visualization" class="object-cover w-full h-full" loading="lazy" />
+          </figure>
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">PERFORMANCE</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">-42% build time</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Reduced end-to-end deployment time through optimized FastAPI pipelines and cached dependency layers.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">INTELLIGENCE</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Context-aware code generation</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Integrated multi-model orchestration via AWS Bedrock for real-time development assistance and error analysis.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">STACK</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">FastAPI · React · Redux · Tailwind · AWS Bedrock · LangChain · PostgreSQL (pgvector) · Docker · Redis · CloudWatch</p>
+            </div>
+          </div>
+          <div class="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">Engineering Notes</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Built an end-to-end RAG pipeline connecting Bedrock models with project-level context retrieval.Implemented secure multi-tenant session handling with JWT-based access and rate-limited API routing.</li>
+                <li>Developed live debugging overlay with syntax-aware error tracing in the React front-end.</li>
+                <li>Containerized all services for reproducible local and cloud environments via Docker Compose.Automated telemetry and build metrics through CloudWatch and Grafana dashboards.</li>
+              </ul>
+            </div>
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">Contributions</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Designed and implemented the full-stack architecture from concept to deployment.Developed 
+                  AI prompt chaining logic and vector search infrastructure.Integrated Stripe-ready billing workflow and role-based access for enterprise scalability.</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold transition border rounded-full border-slate-200/70 bg-white/70 text-slate-700 hover:-translate-y-1 hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200" data-close-case>Back to projects</button>
+        </div>
+      </article>
+    </div>
+
     <section id="contact" class="relative py-24" aria-labelledby="contact-title">
-      <div class="mx-auto max-w-4xl px-6 text-center">
+      <div class="max-w-4xl px-6 mx-auto text-center">
         <h2 id="contact-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">Let’s work.</h2>
         <p class="mt-4 text-base text-slate-600 dark:text-slate-300">Have something in mind? I’m open to impactful collaborations.</p>
         <p class="mt-6 text-2xl font-semibold text-slate-900 dark:text-white">
-          <a href="mailto:tdgf@icloud.com" class="bg-gradient-to-r from-accent-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent transition hover:opacity-80">tdgf@icloud.com</a>
+          <a href="mailto:tdgf@icloud.com" class="text-transparent transition bg-gradient-to-r from-accent-500 via-indigo-500 to-purple-500 bg-clip-text hover:opacity-80">tdgf@icloud.com</a>
           <!-- TODO: Replace with your email -->
         </p>
-        <div class="mt-8 flex items-center justify-center gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300" aria-label="Social links">
-          <a href="https://github.com" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-full border border-slate-200/70 px-4 py-2 transition hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-slate-700/60 dark:hover:border-accent-400 dark:hover:text-accent-300" aria-label="GitHub profile">GitHub</a>
-          <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-full border border-slate-200/70 px-4 py-2 transition hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-slate-700/60 dark:hover:border-accent-400 dark:hover:text-accent-300" aria-label="LinkedIn profile">LinkedIn</a>
+        <div class="flex items-center justify-center gap-6 mt-8 text-sm font-semibold text-slate-600 dark:text-slate-300" aria-label="Social links">
+          <a href="https://github.com/gabo2212" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 px-4 py-2 transition border rounded-full border-slate-200/70 hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-slate-700/60 dark:hover:border-accent-400 dark:hover:text-accent-300" aria-label="GitHub profile">GitHub</a>
+          <a href="https://www.linkedin.com/in/gabriel-fortin-07427338a/" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 px-4 py-2 transition border rounded-full border-slate-200/70 hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-slate-700/60 dark:hover:border-accent-400 dark:hover:text-accent-300" aria-label="LinkedIn profile">LinkedIn</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-slate-200/70 bg-white/80 py-10 text-center text-xs text-slate-500 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-900/70 dark:text-slate-400">
-    <div class="mx-auto max-w-6xl px-6">
+  <footer class="py-10 text-xs text-center border-t border-slate-200/70 bg-white/80 text-slate-500 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-900/70 dark:text-slate-400">
+    <div class="max-w-6xl px-6 mx-auto">
       <!-- TODO: Replace with your name -->
       © 2025 Gabriel Fortin. All rights reserved.
     </div>
   </footer>
+  <script>
+    const openButtons = document.querySelectorAll('[data-case-target]');
+    const closeTriggers = document.querySelectorAll('[data-close-case]');
+    const overlays = document.querySelectorAll('.case-overlay');
+
+    const closeOverlay = (overlay) => {
+      if (!overlay || !overlay.classList.contains('is-open')) return;
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+    };
+
+    const clearAllOverlays = () => {
+      overlays.forEach(closeOverlay);
+      document.body.classList.remove('case-open');
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    };
+
+    openButtons.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = btn.getAttribute('data-case-target');
+        const overlay = document.getElementById(targetId);
+        if (!overlay) return;
+        clearAllOverlays();
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('case-open');
+
+        const { scrollX, scrollY } = window;
+        history.replaceState(null, '', `#${targetId}`);
+        window.scrollTo(scrollX, scrollY);
+      });
+    });
+
+    closeTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+          const overlay = trigger.closest('.case-overlay');
+          closeOverlay(overlay);
+          const anyOpen = Array.from(overlays).some((o) => o.classList.contains('is-open'));
+          if (!anyOpen) {
+            document.body.classList.remove('case-open');
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+      });
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const anyOpen = Array.from(overlays).some((overlay) => overlay.classList.contains('is-open'));
+      if (!anyOpen) return;
+      overlays.forEach(closeOverlay);
+      document.body.classList.remove('case-open');
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    });
+  </script>
 </body>
 </html>
