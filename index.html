@@ -494,5 +494,293 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       history.replaceState(null, '', window.location.pathname + window.location.search);
     });
   </script>
+  <script>
+    (function () {
+      if (typeof window === "undefined") return;
+
+      const STARTER_MESSAGE = "Ask me about my skills, CEObot, Companion AI, VibeCoder, or how I work.";
+      const FALLBACK =
+        "I can answer about: skills, CEObot, Companion AI, VibeCoder, how I work, or how to contact me.";
+
+      const KNOWLEDGE = [
+        {
+          id: "skills",
+          keywords: [
+            "skills",
+            "stack",
+            "what can you do",
+            "what are you good at",
+            "tech",
+            "tech stack",
+            "technology",
+            "languages",
+          ],
+          answer:
+            "Core focus: production AI systems and infra. Backend with C# (.NET 8), Python (FastAPI), Postgres + pgvector, Redis, Docker. Full-stack web with React + TypeScript. Voice AI, real-time agents, secure role-based dashboards, cloud deploy on VMs. Goal: ship tools that run 24/7, not just demos.",
+        },
+        {
+          id: "ceobot",
+          keywords: ["ceobot", "ceo bot", "property management", "tickets", "tenants", "twilio", "dashboard"],
+          answer:
+            "CEObot: property management platform. .NET 8 + EF Core + SQLite. Role-based dashboards for admins and maintenance staff. Twilio voice intake for tenant issues. Deployed on hardened Linux VM. Goal: automate intake to dispatch without manual triage.",
+        },
+        {
+          id: "companion",
+          keywords: ["companion", "asuka", "minecraft", "assistant", "voice", "tts", "mod", "forge"],
+          answer:
+            "Companion AI: Minecraft assistant. Forge 1.20.1 mod plus Python FastAPI backend. Streams in-game events (HP, combat, location) to an LLM and TTS voice clone that talks back in real time. Has cooldown and urgency logic so it only interrupts for important stuff. Stores memory in SQLite.",
+        },
+        {
+          id: "vibecoder",
+          keywords: [
+            "vibecoder",
+            "vibe coder",
+            "code assistant",
+            "ai coder",
+            "generate code",
+            "fastapi",
+            "pgvector",
+            "redis",
+            "bedrock",
+          ],
+          answer:
+            "VibeCoder: AI coding assistant. React + TypeScript front end with Redux. FastAPI backend. Postgres + pgvector memory. Redis for job queue. Uses AWS Bedrock models for code generation, debugging help, and infra planning. Goal: type plain English and receive working code plus deployment plan.",
+        },
+        {
+          id: "workstyle",
+          keywords: [
+            "how you work",
+            "workflow",
+            "style",
+            "approach",
+            "philosophy",
+            "mindset",
+            "what makes you different",
+            "reliability",
+            "production",
+          ],
+          answer:
+            "Mindset: build systems that survive real users, not classroom demos. Focus on reliability, security, monitoring, and deploy. Strong at wiring AI features into actual products: auth, persistence, rate limit, voice, dashboards. Priority is shipping something other people can actually use.",
+        },
+        {
+          id: "contact",
+          keywords: ["contact", "hire", "email", "reach you", "work with you", "collab", "talk"],
+          answer: "Contact: Reach me at tdgf@icloud.com or on Discord (kanyelover1). Open to software / AI infra / tooling roles.",
+        },
+      ];
+
+      const sanitize = (input) =>
+        input
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
+      const getBestAnswer = (question) => {
+        const sanitizedQuestion = sanitize(question);
+        if (!sanitizedQuestion) return FALLBACK;
+
+        const questionWords = sanitizedQuestion.split(" ");
+        let bestAnswer = FALLBACK;
+        let highestScore = 0;
+        let tie = false;
+
+        for (const item of KNOWLEDGE) {
+          let score = 0;
+          for (const keyword of item.keywords) {
+            const normalizedKeyword = sanitize(keyword);
+            if (!normalizedKeyword) continue;
+
+            const keywordWords = normalizedKeyword.split(" ");
+            const questionContainsKeyword = sanitizedQuestion.includes(normalizedKeyword);
+            const keywordContainsQuestionWord = questionWords.some(
+              (word) => word.length > 1 && normalizedKeyword.includes(word),
+            );
+            const questionContainsKeywordWord = keywordWords.some(
+              (word) => word.length > 1 && sanitizedQuestion.includes(word),
+            );
+
+            if (questionContainsKeyword || keywordContainsQuestionWord || questionContainsKeywordWord) {
+              score += 1;
+            }
+          }
+
+          if (score > highestScore) {
+            highestScore = score;
+            bestAnswer = item.answer;
+            tie = false;
+          } else if (score === highestScore && score !== 0) {
+            tie = true;
+          }
+        }
+
+        if (highestScore === 0 || tie) {
+          return FALLBACK;
+        }
+        return bestAnswer;
+      };
+
+      const body = document.body;
+      const chatPanel = document.createElement("section");
+      chatPanel.setAttribute("role", "dialog");
+      chatPanel.setAttribute("aria-modal", "true");
+      chatPanel.setAttribute("aria-label", "Portfolio chat assistant");
+      chatPanel.className =
+        "hidden fixed bottom-24 right-4 z-[9999] flex h-96 w-80 flex-col rounded-xl border border-white/30 shadow-xl backdrop-blur-xl bg-white/80 text-slate-900 dark:bg-slate-900/80 dark:border-white/10 dark:text-slate-100";
+
+      const header = document.createElement("div");
+      header.className =
+        "flex items-center justify-between border-b border-white/30 px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300 dark:border-white/10";
+      const title = document.createElement("span");
+      title.textContent = "Ask me about my work";
+      const closeButton = document.createElement("button");
+      closeButton.type = "button";
+      closeButton.className =
+        "text-[10px] font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer select-none";
+      closeButton.setAttribute("aria-label", "Close chat");
+      closeButton.textContent = "✕";
+      header.appendChild(title);
+      header.appendChild(closeButton);
+
+      const messagesContainer = document.createElement("div");
+      messagesContainer.className = "flex-1 overflow-y-auto p-3 flex flex-col space-y-2 text-sm";
+      messagesContainer.setAttribute("aria-live", "polite");
+
+      const inputRow = document.createElement("div");
+      inputRow.className = "border-t border-white/30 dark:border-white/10 p-2 flex gap-2 items-end";
+
+      const textarea = document.createElement("textarea");
+      textarea.rows = 1;
+      textarea.placeholder = "Type your question...";
+      textarea.className =
+        "flex-1 resize-none rounded-md border border-white/30 dark:border-white/10 bg-transparent px-2 py-2 text-sm leading-snug text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 max-h-24";
+
+      const sendButton = document.createElement("button");
+      sendButton.type = "button";
+      sendButton.textContent = "Send";
+      sendButton.disabled = true;
+      sendButton.className =
+        "rounded-md bg-blue-600 text-white text-xs font-medium px-3 py-2 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed";
+
+      inputRow.appendChild(textarea);
+      inputRow.appendChild(sendButton);
+
+      chatPanel.appendChild(header);
+      chatPanel.appendChild(messagesContainer);
+      chatPanel.appendChild(inputRow);
+
+      const chatButton = document.createElement("button");
+      chatButton.type = "button";
+      chatButton.className =
+        "fixed bottom-4 right-4 z-[9999] rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 w-14 h-14 flex items-center justify-center text-sm font-semibold";
+      chatButton.textContent = "Chat";
+      chatButton.setAttribute("aria-expanded", "false");
+      chatButton.setAttribute("aria-label", "Open chat");
+
+      body.appendChild(chatPanel);
+      body.appendChild(chatButton);
+
+      const state = {
+        open: false,
+        hasStarterMessage: false,
+      };
+
+      const adjustTextareaHeight = () => {
+        textarea.style.height = "auto";
+        const maxHeight = 120;
+        const nextHeight = Math.min(textarea.scrollHeight, maxHeight);
+        textarea.style.height = nextHeight + "px";
+      };
+
+      const updateSendDisabled = () => {
+        sendButton.disabled = textarea.value.trim().length === 0;
+      };
+
+      const scrollToBottom = () => {
+        requestAnimationFrame(() => {
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+      };
+
+      const appendMessage = (from, text) => {
+        const bubble = document.createElement("div");
+        if (from === "user") {
+          bubble.className =
+            "self-end max-w-[80%] rounded-lg px-3 py-2 text-sm bg-blue-600 text-white shadow-sm";
+        } else {
+          bubble.className =
+            "self-start max-w-[80%] rounded-lg px-3 py-2 text-sm bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-white";
+        }
+        bubble.textContent = text;
+        messagesContainer.appendChild(bubble);
+        scrollToBottom();
+      };
+
+      const openChat = () => {
+        state.open = true;
+        chatPanel.classList.remove("hidden");
+        chatPanel.style.display = "flex";
+        chatPanel.setAttribute("aria-hidden", "false");
+        chatButton.textContent = "Close";
+        chatButton.setAttribute("aria-expanded", "true");
+        chatButton.setAttribute("aria-label", "Close chat");
+
+        if (!state.hasStarterMessage) {
+          appendMessage("bot", STARTER_MESSAGE);
+          state.hasStarterMessage = true;
+        }
+
+        adjustTextareaHeight();
+        textarea.focus();
+      };
+
+      const closeChat = () => {
+        state.open = false;
+        chatPanel.classList.add("hidden");
+        chatPanel.style.display = "none";
+        chatPanel.setAttribute("aria-hidden", "true");
+        chatButton.textContent = "Chat";
+        chatButton.setAttribute("aria-expanded", "false");
+        chatButton.setAttribute("aria-label", "Open chat");
+      };
+
+      const toggleChat = () => {
+        if (state.open) {
+          closeChat();
+        } else {
+          openChat();
+        }
+      };
+
+      const sendMessage = () => {
+        const rawValue = textarea.value;
+        const trimmed = rawValue.trim();
+        if (!trimmed) return;
+        appendMessage("user", trimmed);
+        const botReply = getBestAnswer(trimmed);
+        appendMessage("bot", botReply);
+        textarea.value = "";
+        adjustTextareaHeight();
+        updateSendDisabled();
+      };
+
+      chatButton.addEventListener("click", toggleChat);
+      closeButton.addEventListener("click", closeChat);
+
+      textarea.addEventListener("input", () => {
+        adjustTextareaHeight();
+        updateSendDisabled();
+      });
+
+      textarea.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+
+      sendButton.addEventListener("click", sendMessage);
+    })();
+  </script>
 </body>
 </html>
