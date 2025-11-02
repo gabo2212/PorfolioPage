@@ -124,6 +124,10 @@
   pointer-events: none;
 }
 
+.hidden.chat-widget {
+  display: none !important;
+}
+
 .chat-widget {
   display: flex;
   flex-direction: column;

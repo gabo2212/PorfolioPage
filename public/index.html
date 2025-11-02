@@ -947,6 +947,7 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       chatPanel.setAttribute("aria-label", "Portfolio chat assistant");
       chatPanel.className =
         "hidden fixed bottom-24 right-4 z-[9999] flex chat-widget chat-panel-shell";
+      chatPanel.style.display = "none";
 
       const header = document.createElement("div");
       header.className = "chat-header";
@@ -964,6 +965,7 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
 
       const suggestionRow = document.createElement("div");
       suggestionRow.className = "chat-recom";
+      suggestionRow.classList.add("hidden");
 
       const textarea = document.createElement("textarea");
       textarea.rows = 1;
