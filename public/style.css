@@ -53,8 +53,9 @@
 
 .chat-textarea {
   flex: 1;
+  height: 44px;
   min-height: 44px;
-  max-height: 140px;
+  max-height: 120px;
   padding: 10px 12px;
   border-radius: 14px;
   background: rgba(255,255,255,0.06);
@@ -63,7 +64,7 @@
   font-size: 0.85rem;
   line-height: 1.4;
   resize: none;
-  overflow: hidden;
+  overflow-y: auto;
   transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
 
@@ -129,6 +130,8 @@
 }
 
 .chat-widget {
+  width: 100%;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   height: 360px;

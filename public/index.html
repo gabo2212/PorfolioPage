@@ -1076,12 +1076,6 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         chatPanel.classList.add("chat-warp-out");
       };
 
-      const adjustTextareaHeight = () => {
-        textarea.style.height = "auto";
-        textarea.style.height = `${textarea.scrollHeight}px`;
-        textarea.style.overflowY = "hidden";
-      };
-
       const updateSendDisabled = () => {
         sendButton.disabled = textarea.value.trim().length === 0;
       };
@@ -1119,8 +1113,6 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
           state.hasStarterMessage = true;
         }
         refreshSuggestions();
-
-        adjustTextareaHeight();
         textarea.focus();
       };
 
@@ -1166,7 +1158,6 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         if (preset == null) {
           textarea.value = "";
         }
-        adjustTextareaHeight();
         updateSendDisabled();
         if (suggestionTimer) {
           clearTimeout(suggestionTimer);
@@ -1180,7 +1171,6 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       closeButton.addEventListener("click", closeChat);
 
       textarea.addEventListener("input", () => {
-        adjustTextareaHeight();
         updateSendDisabled();
       });
 
