@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Personal portfolio — premium minimal design with projects, skills, and contact." />
+  <title>Gabriel Fortin — Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <style id="chat-animations">
+    @keyframes chatWarpIn {
+      0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.92) rotateX(12deg);
+        filter: blur(18px);
+      }
+      55% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.03);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+    @keyframes chatWarpOut {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.9) rotateX(8deg);
+        filter: blur(14px);
+      }
+    }
+    .chat-panel-shell {
+      transform-origin: 85% 100%;
+      will-change: transform, opacity, filter;
+    }
+    .chat-warp-in {
+      animation: chatWarpIn 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+    .chat-warp-out {
+      animation: chatWarpOut 0.26s cubic-bezier(0.55, 0.09, 0.68, 0.53) forwards;
+    }
+    .overlay-warp-shell {
+      transform-origin: 50% 50%;
+      will-change: transform, opacity, filter;
+    }
+    .case-overlay .overlay-content.overlay-warp-in {
+      animation: chatWarpIn 0.46s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+    .case-overlay .overlay-content.overlay-warp-out {
+      animation: chatWarpOut 0.28s cubic-bezier(0.55, 0.09, 0.68, 0.53) forwards;
+    }
+    @keyframes chatSuggestionFly {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.94);
+      }
+    }
+    @keyframes chatBubbleIn {
+      0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .chat-suggestion {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.32rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(129, 140, 248, 0.95));
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      box-shadow: 0 18px 40px -22px rgba(79, 70, 229, 0.7);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      cursor: pointer;
+    }
+    .chat-suggestion:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 44px -20px rgba(79, 70, 229, 0.72);
+      filter: brightness(1.05);
+    }
+    .chat-suggestion:active {
+      transform: translateY(0);
+      filter: brightness(0.95);
+    }
+    .chat-suggestion--sending {
+      animation: chatSuggestionFly 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      pointer-events: none;
+    }
+    .chat-suggestion--muted {
+      opacity: 0.65;
+    }
+    .chat-suggestion:disabled {
+      cursor: default;
+    }
+    .chat-suggestion-tray {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 22px 44px -26px rgba(15, 23, 42, 0.85);
+    }
+    .animate-chat-bubble {
+      animation: chatBubbleIn 0.26s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    }
+    .overlay-content {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+    }
+    .overlay-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    .overlay-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .overlay-content::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.55);
+      border-radius: 9999px;
+    }
+    .overlay-content::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(148, 163, 184, 0.7);
+    }
+    .overlay-content::-webkit-scrollbar-button {
+      display: none;
+    }
+    .overlay-content::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .chat-widget {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      height: 360px;
+      display: flex;
+      flex-direction: column;
+      background: rgba(7, 10, 18, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 60px -28px rgba(3, 6, 14, 0.75);
+      color: rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+    }
+    .chat-header {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      gap: 12px;
+    }
+    .chat-close {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.65);
+      background: transparent;
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+    .chat-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.05);
+    }
+    .chat-close:focus-visible {
+      outline: 2px solid rgba(120, 169, 255, 0.6);
+      outline-offset: 2px;
+    }
+    .chat-body {
+      flex: 1;
+      padding: 16px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+    .chat-bubble {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 18px 18px 18px 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      color: #fff;
+      line-height: 1.4;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      word-break: break-word;
+    }
+    .chat-bubble.bot {
+      align-self: flex-start;
+    }
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      border: none;
+      border-radius: 18px 18px 6px 18px;
+    }
+    .chat-recom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 16px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.02);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0));
+    }
+    .chat-recom.hidden {
+      display: none;
+    }
+    .recom-chip {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      border-radius: 9999px;
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 7px 14px 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .recom-chip:hover {
+      background: rgba(59, 130, 246, 0.35);
+      transform: translateY(-1px);
+    }
+    .recom-chip:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+    .recom-chip--muted {
+      opacity: 0.55;
+    }
+    .recom-chip--sending {
+      animation: chatSuggestionFly 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      pointer-events: none;
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 16px 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      background: rgba(0, 0, 0, 0.35);
+    }
+    .chat-textarea {
+      flex: 1;
+      min-height: 44px;
+      max-height: 140px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      resize: none;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .chat-textarea::placeholder {
+      color: rgba(226, 232, 240, 0.55);
+    }
+    .chat-textarea:focus {
+      border-color: rgba(120, 169, 255, 0.55);
+      box-shadow: 0 0 0 3px rgba(120, 169, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      outline: none;
+    }
+    .chat-send {
+      flex-shrink: 0;
+      padding: 10px 18px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(57, 128, 255, 0.85), rgba(132, 178, 255, 0.8));
+      border: 1px solid rgba(120, 169, 255, 0.5);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+      box-shadow: 0 12px 28px -16px rgba(57, 128, 255, 0.75);
+    }
+    .chat-send:hover:not(:disabled) {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 16px 34px -18px rgba(57, 128, 255, 0.78);
+    }
+    .chat-send:active:not(:disabled) {
+      transform: translateY(0);
+      filter: brightness(0.95);
+    }
+    .chat-send:disabled {
+      opacity: 0.55;
+      box-shadow: none;
+      cursor: default;
+    }
+    @media (max-width: 480px) {
+      .chat-widget {
+        max-width: 100%;
+      }
+      .chat-recom {
+        flex-wrap: wrap;
+      }
+    }
+    .chat-launcher {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.98), rgba(99, 102, 241, 0.96));
+      box-shadow: 0 18px 36px -22px rgba(59, 130, 246, 0.75);
+      transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.25s ease, filter 0.25s ease;
+      border: 1px solid rgba(191, 219, 254, 0.42);
+    }
+    .chat-launcher:hover {
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.05);
+      box-shadow: 0 22px 44px -24px rgba(59, 130, 246, 0.78);
+    }
+    .chat-launcher:active {
+      transform: translateY(0) scale(0.97);
+      filter: brightness(0.96);
+    }
+    .dark .chat-launcher {
+      box-shadow: 0 18px 36px -24px rgba(79, 70, 229, 0.75);
+      border-color: rgba(148, 163, 184, 0.32);
+    }
+    .dark .chat-launcher:hover {
+      box-shadow: 0 22px 44px -26px rgba(99, 102, 241, 0.8);
+    }
+  </style>
+</head>
+<body class="relative min-h-screen antialiased transition bg-dawn text-slate-900 dark:bg-night dark:text-slate-100">
+  <div class="fixed inset-0 pointer-events-none -z-10">
+    <div class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-accent-300/40 blur-[120px] dark:bg-accent-500/25"></div>
+    <div class="absolute right-[-120px] top-1/3 h-[420px] w-[420px] rounded-full bg-purple-400/30 blur-[120px] dark:bg-purple-500/25"></div>
+    <div class="absolute bottom-[-160px] left-1/4 h-[380px] w-[380px] rounded-full bg-indigo-300/30 blur-[120px] dark:bg-indigo-500/20"></div>
+  </div>
+
+  <header class="sticky top-0 z-40 transition border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+    <div class="flex items-center justify-between max-w-6xl gap-6 px-6 py-4 mx-auto">
+      <a href="#home" class="inline-flex items-center gap-3 group" aria-label="Home">
+        <!-- TODO: Replace initials -->
+        <span class="flex items-center justify-center w-12 h-12 text-base font-semibold transition rounded-3xl bg-gradient-to-br from-accent-400 via-indigo-400 to-indigo-600 text-night shadow-glow group-hover:scale-105">GF</span>
+        <span class="text-base font-semibold tracking-tight transition text-slate-800 group-hover:text-slate-950 dark:text-slate-100 dark:group-hover:text-white">Gabriel Fortin</span>
+      </a>
+
+      <nav class="items-center hidden gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300" aria-label="Primary">
+        <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#home">Home</a>
+        <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#about">About</a>
+        <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#skills">Skills</a>
+        <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#projects">Projects</a>
+        <a class="transition hover:text-accent-600 dark:hover:text-accent-400" href="#contact">Contact</a>
+      </nav>
+
+      <a href="#contact" class="px-5 py-2 text-sm font-semibold text-white transition rounded-full shadow-lg bg-gradient-to-r from-accent-500 via-indigo-500 to-indigo-600 shadow-indigo-500/40 hover:-translate-y-1 hover:shadow-glow">Get in touch</a>
+    </div>
+
+    <div class="flex items-center justify-center px-6 py-3 text-xs font-medium border-t border-slate-200/60 bg-white/70 text-slate-600 md:hidden dark:border-slate-800/60 dark:bg-slate-900/70 dark:text-slate-300">
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a class="transition hover:text-accent-500" href="#home">Home</a>
+        <a class="transition hover:text-accent-500" href="#about">About</a>
+        <a class="transition hover:text-accent-500" href="#skills">Skills</a>
+        <a class="transition hover:text-accent-500" href="#projects">Projects</a>
+        <a class="transition hover:text-accent-500" href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="relative overflow-hidden">
+      <div class="absolute left-1/2 top-[-140px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-br from-accent-100 via-transparent to-transparent blur-3xl dark:from-accent-400/30"></div>
+      <div class="mx-auto grid max-w-6xl items-center gap-16 px-6 py-24 lg:grid-cols-[1.05fr_1fr] lg:py-32">
+        <div class="space-y-8">
+          <span class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500 shadow-sm dark:border-slate-800/70 dark:bg-slate-900/70 dark:text-slate-300">Engineer + AI Builder</span>
+          <h1 class="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl dark:text-white">
+            <!-- TODO: Replace headline with your name -->
+            Hi, I build <span class="text-transparent bg-gradient-to-r from-accent-500 via-indigo-500 to-purple-500 bg-clip-text">intelligent systems</span>.
+          </h1>
+          <p class="max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+            I build intelligent systems with clean design, solid engineering, and production-ready reliability.
+            <!-- TODO: Replace with your positioning statement -->
+          </p>
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="#contact" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white transition rounded-full shadow-lg bg-slate-900 shadow-slate-900/30 hover:-translate-y-1 hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">Let’s collaborate</a>
+            <a href="#projects" class="inline-flex items-center gap-2 text-sm font-semibold transition text-slate-700 hover:text-accent-600 dark:text-slate-300 dark:hover:text-accent-400">Explore projects →</a>
+          </div>
+        </div>
+
+        <!-- TODO: Update the file name and alt text to match your hero visual -->
+        <div class="relative aspect-[4/3] w-full overflow-hidden rounded-[36px] border border-white/70 bg-gradient-to-br from-white via-slate-100 to-slate-200 shadow-2xl shadow-slate-900/10 dark:border-white/10 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent-200/30 via-transparent to-transparent dark:from-accent-500/15"></div>
+          <img src="img/hero-preview.jpg" alt="Preview of flagship project" loading="lazy" class="absolute inset-0 object-cover w-full h-full" />
+          <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-60 mix-blend-soft-light dark:from-black/60" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="relative py-24" aria-labelledby="about-title">
+      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-800"></div>
+      <div class="max-w-5xl px-6 mx-auto">
+        <h2 id="about-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">About</h2>
+        <div class="grid gap-8 mt-12 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-10">
+          <div class="h-full space-y-6 glass-panel text-slate-700 dark:text-slate-200">
+            <p class="text-lg leading-relaxed">
+              <!-- TODO: Replace with your bio -->
+              I’m a developer focused on building intelligent, production-ready systems that merge software engineering with artificial intelligence. My work spans full-stack web platforms and advanced AI pipelines, with a strong emphasis on automation, scalability, and real-time interaction.
+            </p>
+            <p class="text-lg leading-relaxed">
+              I thrive at the intersection of backend architecture and applied AI — designing systems that are not only robust and secure but also adaptive and responsive to complex, real-world demands.
+            </p>
+            <ul class="flex flex-wrap gap-3 pt-2 text-sm font-medium list-none">
+              <li><span class="chip">AI &amp; ML systems</span></li>
+              <li><span class="chip">Full-stack product work</span></li>
+              <li><span class="chip">Infrastructure &amp; reliability</span></li>
+              <li><span class="chip">Real-time systems</span></li>
+            </ul>
+          </div>
+          <aside class="h-full space-y-5 glass-panel" aria-labelledby="skills-title">
+            <h3 id="skills-title" class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Skills Snapshot</h3>
+            <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">C# · Python · Java · TypeScript · FastAPI · ASP.NET Core · React · REST APIs · SQLite · PostgreSQL · Docker · GCP · JWT Auth · AI Voice (Grok, Coqui XTTS) · DevOps &amp; Automation</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="relative py-24" aria-labelledby="skills-title-main">
+      <div class="max-w-6xl px-6 mx-auto">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 id="skills-title-main" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">Technical Skills</h2>
+          <p class="mt-4 text-base text-slate-600 dark:text-slate-300">Core technologies and tools I’ve mastered across my projects.</p>
+        </div>
+
+        <div class="mt-16 glass-grid">
+          <!-- TODO: Add or remove skills below -->
+          <article class="relative flex flex-col gap-6 group glass-panel glass-tight">
+            <div class="absolute w-24 h-24 transition rounded-full pointer-events-none -left-14 top-10 bg-accent-300/25 blur-3xl group-hover:translate-x-6"></div>
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Core Languages</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">C#</span></li>
+              <li><span class="chip">Python</span></li>
+              <li><span class="chip">Java</span></li>
+              <li><span class="chip">JavaScript</span></li>
+              <li><span class="chip">TypeScript</span></li>
+              <li><span class="chip">HTML</span></li>
+              <li><span class="chip">CSS</span></li>
+              <li><span class="chip">Tailwind CSS</span></li>
+              <li><span class="chip">Bash</span></li>
+            </ul>
+          </article>
+
+          <article class="relative flex flex-col gap-6 group glass-panel glass-tight">
+            <div class="absolute transition rounded-full pointer-events-none -right-14 top-16 h-28 w-28 bg-indigo-300/25 blur-3xl group-hover:-translate-y-6"></div>
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frameworks &amp; Tools</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">ASP.NET Core</span></li>
+              <li><span class="chip">FastAPI</span></li>
+              <li><span class="chip">Forge (Minecraft)</span></li>
+              <li><span class="chip">Entity Framework Core</span></li>
+              <li><span class="chip">Gradle</span></li>
+              <li><span class="chip">Git</span></li>
+              <li><span class="chip">VS Code</span></li>
+            </ul>
+          </article>
+
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Backend &amp; Databases</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">SQLite</span></li>
+              <li><span class="chip">PostgreSQL (planned)</span></li>
+              <li><span class="chip">JSON configs</span></li>
+              <li><span class="chip">REST APIs</span></li>
+            </ul>
+          </article>
+
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">AI &amp; Voice Integration</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">GrokAI API</span></li>
+              <li><span class="chip">OpenAI API</span></li>
+              <li><span class="chip">Coqui XTTS-v2</span></li>
+              <li><span class="chip">ElevenLabs</span></li>
+            </ul>
+          </article>
+
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frontend &amp; UI</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Razor Pages</span></li>
+              <li><span class="chip">Responsive CSS</span></li>
+              <li><span class="chip">Flexbox</span></li>
+              <li><span class="chip">Grid</span></li>
+            </ul>
+          </article>
+
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">DevOps &amp; Cloud</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Google Cloud VM</span></li>
+              <li><span class="chip">Caddy</span></li>
+              <li><span class="chip">Systemd</span></li>
+              <li><span class="chip">Docker (learning)</span></li>
+            </ul>
+          </article>
+
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Security &amp; Auth</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">JWT</span></li>
+              <li><span class="chip">Cookies</span></li>
+              <li><span class="chip">CSRF</span></li>
+              <li><span class="chip">CORS</span></li>
+              <li><span class="chip">API Keys</span></li>
+            </ul>
+          </article>
+
+          <article class="flex flex-col gap-6 glass-panel glass-tight">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Monitoring &amp; Debug</h3>
+            <ul class="flex flex-wrap gap-3">
+              <li><span class="chip">Journalctl</span></li>
+              <li><span class="chip">Postman</span></li>
+              <li><span class="chip">Curl</span></li>
+              <li><span class="chip">Console Logs</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="relative py-24 bg-gradient-to-b from-white via-white to-slate-100 dark:from-night dark:via-night dark:to-dusk" aria-labelledby="projects-title">
+      <div class="max-w-6xl px-6 mx-auto">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 id="projects-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">Projects</h2>
+            <p class="mt-2 text-base text-slate-600 dark:text-slate-300">Highlights spanning AI-driven workflows, polished UI, and resilient infrastructure.</p>
+          </div>
+          <a href="mailto:tdgf@icloud.com" class="inline-flex items-center gap-2 text-sm font-semibold transition text-slate-600 hover:text-accent-600 dark:text-slate-300 dark:hover:text-accent-400">Request full case studies →</a>
+        </div>
+
+        <div class="grid gap-10 mt-16 sm:grid-cols-2 xl:grid-cols-3">
+          <!-- Project card -->
+          <article class="flex flex-col overflow-hidden group glass-panel glass-zero">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="img/project-one.jpg" alt="Project One interface" loading="lazy" class="object-cover w-full h-full transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 transition opacity-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent group-hover:opacity-100"></span>
+              <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · Automation · Voice · Ops · Infra · WebApp</span>
+            </div>
+            <div class="flex flex-col flex-1 gap-4 px-6 py-6">
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">CEObot</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300">AI-driven property management system automating tenant requests, voice intake, and admin workflows.</p>
+              <a href="#case-project-one" data-case-target="case-project-one" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project One">View details →</a>
+            </div>
+          </article>
+
+          <!-- Project card -->
+          <article class="flex flex-col overflow-hidden group glass-panel glass-zero">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="img/project-two.jpg" alt="Project Two interface" loading="lazy" class="object-cover w-full h-full transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 transition opacity-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent group-hover:opacity-100"></span>
+              <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · Game Integration · Voice · Agent · Realtime</span>
+            </div>
+            <div class="flex flex-col flex-1 gap-4 px-6 py-6">
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Asuka AI</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300">Intelligent Minecraft companion using Grok + Coqui XTTS for live, context-aware voice interactions.</p>
+              <a href="#case-project-two" data-case-target="case-project-two" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project Two">View details →</a>
+            </div>
+          </article>
+
+          <!-- Project card -->
+          <article class="flex flex-col overflow-hidden group glass-panel glass-zero">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="img/project-three.jpg" alt="Project Three dashboard" loading="lazy" class="object-cover w-full h-full transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 transition opacity-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent group-hover:opacity-100"></span>
+              <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · DevTools · Full-Stack · Cloud · Apps</span>
+            </div>
+            <div class="flex flex-col flex-1 gap-4 px-6 py-6">
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">VibeCoder</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300">Full-stack AI coding assistant built with FastAPI, React, and AWS Bedrock for live code generation and debugging.</p>
+              <a href="#case-project-three" data-case-target="case-project-three" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project Three">View details →</a>
+            </div>
+          </article>
+
+          <!-- TODO: Add more project-card blocks below -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Project case study overlays -->
+    <div id="case-project-one" class="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-project-one-title" aria-hidden="true">
+      <button type="button" class="overlay-backdrop" data-close-case aria-label="Close"></button>
+      <article class="overlay-content overlay-warp-shell">
+        <header class="pr-4 space-y-4">
+          <span class="overlay-badge">Case Study</span>
+          <h3 id="case-project-one-title" class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">CEObot — AI-driven property management system</h3>
+          <p class="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">AI-driven property management system automating tenant requests, voice intake, and admin workflows.</p>
+        </header>
+        <div class="space-y-10 overlay-body">
+          <figure class="overlay-hero">
+            <img src="img/project-one.jpg" alt="Project One full-screen interface" class="object-cover w-full h-full" loading="lazy" />
+          </figure>
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Result</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">60% faster issue resolution</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Automated tenant intake and triage cut manual routing time in half after launch.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Scale</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">40+ services</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Real-time voice and ticket workflows synchronized across tenants, staff, and admin dashboards.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Stack</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">C# · ASP.NET Core · FastAPI · SQLite · Twilio Voice · REST APIs · JWT Auth · Google Cloud VM · Caddy</p>
+            </div>
+          </div>
+          <div class="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">Highlights</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Built a multi-portal web system unifying tenant, staff, and admin access with live status sync.</li>
+                <li>Integrated Twilio Voice for voicemail-to-ticket automation with smart transcription.
+                  Designed secure session handling using JWT cookies with CSRF and role-based access.</li>
+                <li>Deployed on a Google Cloud VM with Caddy SSL and persistent uptime monitoring.
+                  Developed a modular admin dashboard for staff tracking, ticket analytics, and automated reporting.</li>
+              </ul>
+            </div>
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">My role</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Led full-stack design, backend API architecture, and cloud deployment.</li>
+                <li>Handled authentication, database design, and voice integration pipeline.</li>
+                <li>Delivered production-ready reliability and user-tested UI polish.</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold transition border rounded-full border-slate-200/70 bg-white/70 text-slate-700 hover:-translate-y-1 hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200" data-close-case>Back to projects</button>
+        </div>
+      </article>
+    </div>
+
+    <div id="case-project-two" class="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-project-two-title" aria-hidden="true">
+      <button type="button" class="overlay-backdrop" data-close-case aria-label="Close"></button>
+      <article class="overlay-content overlay-warp-shell">
+        <header class="pr-4 space-y-4">
+          <span class="overlay-badge">Case Study</span>
+          <h3 id="case-project-two-title" class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white"> Companion AI — Intelligent Minecraft companion</h3>
+          <p class="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">A responsive commerce flow engineered for clarity. Built a headless storefront with cinematic motion and instant feedback to mirror the polish of premium hardware launches.</p>
+        </header>
+        <div class="space-y-10 overlay-body">
+          <figure class="overlay-hero">
+            <img src="img/project-two.jpg" alt="Project Two responsive screens" class="object-cover w-full h-full" loading="lazy" />
+          </figure>
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">IMPACT</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Real-time engagement</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Fully in-game experience
+              Bridges player events, voice synthesis, and AI reasoning through a unified local FastAPI bridge.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">INTEGRATION</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Optimistic UI, GPU-accelerated product gallery, tactile haptics via Web Animations API.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">Stack</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Java (Forge Mod) · Python (FastAPI) · Grok LLM · Coqui XTTS-v2 · JSON Memory · REST · Local TTS Pipeline</p>
+            </div>
+          </div>
+          <div class="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">HIGHLIGHTS</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Engineered bidirectional event flow between Minecraft and AI backend for real-time context.Designed memory-driven responses that evolve from in-game events and player behavior.</li>
+                <li>Integrated Coqui XTTS-v2 for ultra-natural TTS with dynamic cues.</li>
+                <li>Implemented cooldown, urgency, and affinity logic for autonomous character behavior.Built a modular event schema supporting expansion to new dimensions, mobs, and item events.</li>
+              </ul>
+            </div>
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">MY ROLE</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Sole developer and systems designer across mod, API, and AI layers.
+Handled architecture, local inference pipeline, and Grok integration.
+Optimized event latency and dialogue flow for immersion and performance.</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold transition border rounded-full border-slate-200/70 bg-white/70 text-slate-700 hover:-translate-y-1 hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200" data-close-case>Back to projects</button>
+        </div>
+      </article>
+    </div>
+
+    <div id="case-project-three" class="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-project-three-title" aria-hidden="true">
+      <button type="button" class="overlay-backdrop" data-close-case aria-label="Close"></button>
+      <article class="overlay-content overlay-warp-shell">
+        <header class="pr-4 space-y-4">
+          <span class="overlay-badge">Case Study</span>
+          <h3 id="case-project-three-title" class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">VibeCoder — Full-stack AI coding assistant</h3>
+          <p class="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">Full-stack AI coding assistant built with FastAPI, React, and AWS Bedrock for live code generation and debugging.</p>
+        </header>
+        <div class="space-y-10 overlay-body">
+          <figure class="overlay-hero">
+            <img src="img/project-three.jpg" alt="Project Three infrastructure visualization" class="object-cover w-full h-full" loading="lazy" />
+          </figure>
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">PERFORMANCE</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">-42% build time</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Reduced end-to-end deployment time through optimized FastAPI pipelines and cached dependency layers.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">INTELLIGENCE</p>
+              <p class="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Context-aware code generation</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Integrated multi-model orchestration via AWS Bedrock for real-time development assistance and error analysis.</p>
+            </div>
+            <div class="modal-panel">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-300">STACK</p>
+              <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">FastAPI · React · Redux · Tailwind · AWS Bedrock · LangChain · PostgreSQL (pgvector) · Docker · Redis · CloudWatch</p>
+            </div>
+          </div>
+          <div class="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">Engineering Notes</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Built an end-to-end RAG pipeline connecting Bedrock models with project-level context retrieval.Implemented secure multi-tenant session handling with JWT-based access and rate-limited API routing.</li>
+                <li>Developed live debugging overlay with syntax-aware error tracing in the React front-end.</li>
+                <li>Containerized all services for reproducible local and cloud environments via Docker Compose.Automated telemetry and build metrics through CloudWatch and Grafana dashboards.</li>
+              </ul>
+            </div>
+            <div class="modal-panel">
+              <h4 class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300">Contributions</h4>
+              <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <li>Designed and implemented the full-stack architecture from concept to deployment.Developed 
+                  AI prompt chaining logic and vector search infrastructure.Integrated Stripe-ready billing workflow and role-based access for enterprise scalability.</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold transition border rounded-full border-slate-200/70 bg-white/70 text-slate-700 hover:-translate-y-1 hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200" data-close-case>Back to projects</button>
+        </div>
+      </article>
+    </div>
+
+    <section id="contact" class="relative py-24" aria-labelledby="contact-title">
+      <div class="max-w-4xl px-6 mx-auto text-center">
+        <h2 id="contact-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">Let’s work.</h2>
+        <p class="mt-4 text-base text-slate-600 dark:text-slate-300">Have something in mind? I’m open to impactful collaborations.</p>
+        <p class="mt-6 text-2xl font-semibold text-slate-900 dark:text-white">
+          <a href="mailto:tdgf@icloud.com" class="text-transparent transition bg-gradient-to-r from-accent-500 via-indigo-500 to-purple-500 bg-clip-text hover:opacity-80">tdgf@icloud.com</a>
+          <!-- TODO: Replace with your email -->
+        </p>
+        <div class="flex items-center justify-center gap-6 mt-8 text-sm font-semibold text-slate-600 dark:text-slate-300" aria-label="Social links">
+          <a href="https://github.com/gabo2212" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 px-4 py-2 transition border rounded-full border-slate-200/70 hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-slate-700/60 dark:hover:border-accent-400 dark:hover:text-accent-300" aria-label="GitHub profile">GitHub</a>
+          <a href="https://www.linkedin.com/in/gabriel-fortin-07427338a/" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 px-4 py-2 transition border rounded-full border-slate-200/70 hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-slate-700/60 dark:hover:border-accent-400 dark:hover:text-accent-300" aria-label="LinkedIn profile">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 text-xs text-center border-t border-slate-200/70 bg-white/80 text-slate-500 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-900/70 dark:text-slate-400">
+    <div class="max-w-6xl px-6 mx-auto">
+      <!-- TODO: Replace with your name -->
+      © 2025 Gabriel Fortin. All rights reserved.
+    </div>
+  </footer>
+  <script>
+    const openButtons = document.querySelectorAll('[data-case-target]');
+    const closeTriggers = document.querySelectorAll('[data-close-case]');
+    const overlays = document.querySelectorAll('.case-overlay');
+
+    const updateBodyLock = () => {
+      const anyActive = Array.from(overlays).some((overlay) => overlay.classList.contains('is-open'));
+      if (!anyActive) {
+        document.body.classList.remove('case-open');
+      }
+    };
+
+    const playOverlayOpen = (overlay) => {
+      if (!overlay) return;
+      const content = overlay.querySelector('.overlay-content');
+      if (!content) return;
+      content.classList.remove('overlay-warp-out');
+      content.classList.remove('overlay-warp-in');
+      void content.offsetWidth;
+      content.classList.add('overlay-warp-in');
+    };
+
+    const closeOverlay = (overlay, { immediate = false } = {}) => {
+      if (!overlay) return;
+      const isOpen = overlay.classList.contains('is-open');
+
+      if (!isOpen) {
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.classList.remove('is-closing');
+        delete overlay.dataset.state;
+        updateBodyLock();
+        return;
+      }
+
+      if (immediate) {
+        overlay.classList.remove('is-open');
+        overlay.classList.remove('is-closing');
+        overlay.setAttribute('aria-hidden', 'true');
+        delete overlay.dataset.state;
+        updateBodyLock();
+        return;
+      }
+
+      if (overlay.dataset.state === 'closing') {
+        return;
+      }
+
+      const content = overlay.querySelector('.overlay-content');
+
+      const finishClose = () => {
+        overlay.classList.remove('is-open');
+        overlay.classList.remove('is-closing');
+        overlay.setAttribute('aria-hidden', 'true');
+        delete overlay.dataset.state;
+        updateBodyLock();
+      };
+
+      if (!content) {
+        finishClose();
+        return;
+      }
+
+      overlay.dataset.state = 'closing';
+      overlay.classList.add('is-closing');
+
+      let fallbackTimer;
+      const handleAnimationEnd = (event) => {
+        if (event.target !== content || event.animationName !== 'chatWarpOut') {
+          return;
+        }
+        content.removeEventListener('animationend', handleAnimationEnd);
+        if (fallbackTimer) {
+          window.clearTimeout(fallbackTimer);
+        }
+        finishClose();
+      };
+
+      content.classList.remove('overlay-warp-in');
+      content.classList.remove('overlay-warp-out');
+      content.addEventListener('animationend', handleAnimationEnd);
+
+      fallbackTimer = window.setTimeout(() => {
+        content.removeEventListener('animationend', handleAnimationEnd);
+        finishClose();
+      }, 360);
+
+      requestAnimationFrame(() => {
+        if (!overlay.classList.contains('is-open')) {
+          content.removeEventListener('animationend', handleAnimationEnd);
+          if (fallbackTimer) {
+            window.clearTimeout(fallbackTimer);
+          }
+          finishClose();
+          return;
+        }
+        content.classList.add('overlay-warp-out');
+      });
+    };
+
+    const clearAllOverlays = (options = {}) => {
+      overlays.forEach((overlay) => closeOverlay(overlay, options));
+    };
+
+    openButtons.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = btn.getAttribute('data-case-target');
+        const overlay = document.getElementById(targetId);
+        if (!overlay) return;
+        if (overlay.classList.contains('is-open')) return;
+
+        clearAllOverlays();
+
+        overlay.classList.remove('is-closing');
+        delete overlay.dataset.state;
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('case-open');
+        playOverlayOpen(overlay);
+      });
+    });
+
+    closeTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        const overlay = trigger.closest('.case-overlay');
+        closeOverlay(overlay);
+      });
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      overlays.forEach((overlay) => closeOverlay(overlay));
+    });
+  </script>
+  <script>
+    (function () {
+      if (typeof window === "undefined") return;
+
+      const STARTER_MESSAGE =
+        "Ask me about my bio, skills, projects (CEObot, Companion AI, VibeCoder), workstyle, experience, education, or how to contact me.";
+      const FALLBACK =
+        "I can answer about: bio, skills, projects (CEObot, Companion AI, VibeCoder), workstyle, experience, education, or contact.";
+      const RECOMMENDED_QUESTIONS = [
+        "What projects are you most proud of?",
+        "Can you summarize your AI experience?",
+        "What skills are you focusing on right now?",
+        "Tell me about your Cirque du Soleil role.",
+        "Where did you study AI and computer science?",
+        "How do you approach building products?",
+        "What tools are in your daily stack?",
+        "How can we best get in touch?",
+      ];
+
+      const KNOWLEDGE = [
+        {
+          id: "about",
+          keywords: [
+            "about",
+            "bio",
+            "who are you",
+            "background",
+            "about me",
+            "what do you do",
+            "philosophy",
+          ],
+          answer:
+            "I build intelligent systems that combine creative engineering with practical AI. Projects include voice-driven assistants, automated pipelines, and adaptive interfaces. I treat every product like an ecosystem: scalable, observable, and ready to iterate so the experience feels alive, reliable, and intuitively engineered.",
+        },
+        {
+          id: "skills",
+          keywords: [
+            "skills",
+            "stack",
+            "what can you do",
+            "what are you good at",
+            "tech",
+            "tech stack",
+            "technology",
+            "languages",
+          ],
+          answer:
+            "Core focus: production AI systems and infra. Backend with C# (.NET 8), Python (FastAPI), Postgres + pgvector, Redis, Docker. Full-stack web with React + TypeScript. Voice AI, real-time agents, secure role-based dashboards, cloud deploy on VMs. Goal: ship tools that run 24/7, not just demos.",
+        },
+        {
+          id: "ceobot",
+          keywords: ["ceobot", "ceo bot", "property management", "tickets", "tenants", "twilio", "dashboard"],
+          answer:
+            "CEObot: property management platform. .NET 8 + EF Core + SQLite. Role-based dashboards for admins and maintenance staff. Twilio voice intake for tenant issues. Deployed on hardened Linux VM. Goal: automate intake to dispatch without manual triage.",
+        },
+        {
+          id: "companion",
+          keywords: ["companion", "asuka", "minecraft", "assistant", "voice", "tts", "mod", "forge"],
+          answer:
+            "Companion AI: Minecraft assistant. Forge 1.20.1 mod plus Python FastAPI backend. Streams in-game events (HP, combat, location) to an LLM and TTS voice clone that talks back in real time. Has cooldown and urgency logic so it only interrupts for important stuff. Stores memory in SQLite.",
+        },
+        {
+          id: "vibecoder",
+          keywords: [
+            "vibecoder",
+            "vibe coder",
+            "code assistant",
+            "ai coder",
+            "generate code",
+            "fastapi",
+            "pgvector",
+            "redis",
+            "bedrock",
+          ],
+          answer:
+            "VibeCoder: AI coding assistant. React + TypeScript front end with Redux. FastAPI backend. Postgres + pgvector memory. Redis for job queue. Uses AWS Bedrock models for code generation, debugging help, and infra planning. Goal: type plain English and receive working code plus deployment plan.",
+        },
+        {
+          id: "workstyle",
+          keywords: [
+            "how you work",
+            "workflow",
+            "style",
+            "approach",
+            "philosophy",
+            "mindset",
+            "what makes you different",
+            "reliability",
+            "production",
+          ],
+          answer:
+            "Mindset: build systems that survive real users, not classroom demos. Focus on reliability, security, monitoring, and deploy. Strong at wiring AI features into actual products: auth, persistence, rate limit, voice, dashboards. Priority is shipping something other people can actually use.",
+        },
+        {
+          id: "experience",
+          keywords: [
+            "experience",
+            "work history",
+            "jobs",
+            "cirque",
+            "it technician",
+            "apprenticeship",
+            "what have you done",
+          ],
+          answer:
+            "Recent role: IT Technician (Apprenticeship) at Cirque du Soleil Entertainment Group, Jul 2020 - Sep 2020. Helped maintain live-show IT across venues, handling network and AV setup, troubleshooting, and system upkeep to keep performances running smoothly.",
+        },
+        {
+          id: "education",
+          keywords: [
+            "education",
+            "school",
+            "study",
+            "degree",
+            "college",
+            "cdi",
+            "cegep",
+            "ai program",
+          ],
+          answer:
+            "Education: Technic program in Artificial Intelligence at CDI College (2025-2026) focused on applied ML, deployment, and data-driven design. Previously at Cégep Édouard-Montpetit (Sep 2024 - Jul 2025) studying computer science with emphasis on full-stack development, data systems, and cloud infrastructure.",
+        },
+        {
+          id: "contact",
+          keywords: ["contact", "hire", "email", "reach you", "work with you", "collab", "talk"],
+          answer: "Contact: [tdgf@icloud.com or kanyelover1 on Discord]. Open to software / AI infra / tooling roles.",
+        },
+      ];
+
+      const sanitize = (input) =>
+        input
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
+      const getBestAnswer = (question) => {
+        const sanitizedQuestion = sanitize(question);
+        if (!sanitizedQuestion) return FALLBACK;
+
+        const questionWords = sanitizedQuestion.split(" ");
+        let bestAnswer = FALLBACK;
+        let highestScore = 0;
+        let tie = false;
+
+        for (const item of KNOWLEDGE) {
+          let score = 0;
+        for (const keyword of item.keywords) {
+          const normalizedKeyword = sanitize(keyword);
+          if (!normalizedKeyword) continue;
+
+          const keywordWords = normalizedKeyword.split(" ");
+          if (normalizedKeyword === sanitizedQuestion) {
+            score += 3;
+            continue;
+          }
+          const questionContainsKeyword = sanitizedQuestion.includes(normalizedKeyword);
+          const keywordContainsQuestionWord = questionWords.some(
+            (word) => word.length > 1 && normalizedKeyword.includes(word),
+          );
+          const questionContainsKeywordWord = keywordWords.some(
+            (word) => word.length > 1 && sanitizedQuestion.includes(word),
+          );
+
+          if (questionContainsKeyword) {
+            score += 2;
+          }
+          if (keywordContainsQuestionWord) {
+            score += 1;
+          }
+          if (questionContainsKeywordWord) {
+            score += 1;
+          }
+        }
+
+        if (score > highestScore) {
+            highestScore = score;
+            bestAnswer = item.answer;
+            tie = false;
+          } else if (score === highestScore && score !== 0) {
+            tie = true;
+          }
+        }
+
+        if (highestScore === 0 || tie) {
+          return FALLBACK;
+        }
+        return bestAnswer;
+      };
+
+      const body = document.body;
+      const chatPanel = document.createElement("div");
+      chatPanel.setAttribute("role", "dialog");
+      chatPanel.setAttribute("aria-modal", "true");
+      chatPanel.setAttribute("aria-label", "Portfolio chat assistant");
+      chatPanel.className =
+        "hidden fixed bottom-24 right-4 z-[9999] flex chat-widget chat-panel-shell";
+
+      const header = document.createElement("div");
+      header.className = "chat-header";
+      const title = document.createElement("span");
+      title.textContent = "ASK ME ABOUT MY WORK";
+      const closeButton = document.createElement("button");
+      closeButton.type = "button";
+      closeButton.className = "chat-close";
+      closeButton.setAttribute("aria-label", "Close chat");
+      closeButton.textContent = "×";
+      header.appendChild(title);
+      header.appendChild(closeButton);
+
+      const messagesContainer = document.createElement("div");
+      messagesContainer.className = "chat-body no-scrollbar";
+      messagesContainer.setAttribute("aria-live", "polite");
+
+      const suggestionRow = document.createElement("div");
+      suggestionRow.className = "chat-recom hidden";
+
+      const textarea = document.createElement("textarea");
+      textarea.rows = 1;
+      textarea.placeholder = "Type your question...";
+      textarea.className = "chat-textarea";
+
+      const sendButton = document.createElement("button");
+      sendButton.type = "button";
+      sendButton.textContent = "Send";
+      sendButton.disabled = true;
+      sendButton.className = "chat-send";
+
+      const inputRow = document.createElement("div");
+      inputRow.className = "chat-input-row";
+      inputRow.appendChild(textarea);
+      inputRow.appendChild(sendButton);
+
+      chatPanel.appendChild(header);
+      chatPanel.appendChild(messagesContainer);
+      chatPanel.appendChild(suggestionRow);
+      chatPanel.appendChild(inputRow);
+
+      const chatButton = document.createElement("button");
+      chatButton.type = "button";
+      chatButton.className =
+        "chat-launcher fixed bottom-4 right-4 z-[9999] flex items-center justify-center text-sm font-semibold text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
+      chatButton.textContent = "Chat";
+      chatButton.setAttribute("aria-expanded", "false");
+      chatButton.setAttribute("aria-label", "Open chat");
+
+      body.appendChild(chatPanel);
+      body.appendChild(chatButton);
+
+    const state = {
+      open: false,
+      hasStarterMessage: false,
+      suggestions: [],
+      activeSuggestion: null,
+    };
+    let suggestionTimer = null;
+
+      const pickSuggestions = (exclude = [], count = 3) => {
+        const exclusions = new Set(exclude.map((item) => item.toLowerCase()));
+        const pool = RECOMMENDED_QUESTIONS.filter(
+          (question) => !exclusions.has(question.toLowerCase()),
+        );
+        const result = [];
+        const max = Math.min(count, pool.length);
+        while (result.length < max) {
+          const candidate = pool[Math.floor(Math.random() * pool.length)];
+          if (!result.includes(candidate)) {
+            result.push(candidate);
+          }
+        }
+        return result;
+      };
+
+      const renderSuggestions = () => {
+        suggestionRow.innerHTML = "";
+        if (!state.open || state.suggestions.length === 0) {
+          suggestionRow.classList.add("hidden");
+          return;
+        }
+        suggestionRow.classList.remove("hidden");
+        state.suggestions.forEach((question) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = question;
+          let className = "recom-chip";
+          if (state.activeSuggestion === question) {
+            className += " recom-chip--sending";
+          } else if (state.activeSuggestion) {
+            className += " recom-chip--muted";
+          }
+          button.className = className;
+          button.disabled = !!state.activeSuggestion;
+          button.addEventListener("click", () => {
+            if (state.activeSuggestion) return;
+            state.activeSuggestion = question;
+            const siblings = suggestionRow.querySelectorAll("button");
+            siblings.forEach((other) => {
+              other.disabled = true;
+              if (other !== button) {
+                other.classList.add("recom-chip--muted");
+              }
+            });
+            button.classList.add("recom-chip--sending");
+            setTimeout(() => {
+              sendMessage(question);
+            }, 160);
+          });
+          suggestionRow.appendChild(button);
+        });
+      };
+
+      const refreshSuggestions = (exclude = []) => {
+        if (suggestionTimer) {
+          clearTimeout(suggestionTimer);
+          suggestionTimer = null;
+        }
+        state.activeSuggestion = null;
+        state.suggestions = pickSuggestions(exclude);
+        renderSuggestions();
+      };
+
+      const playOpenAnimation = () => {
+        chatPanel.classList.remove("chat-warp-out");
+        chatPanel.classList.remove("chat-warp-in");
+        void chatPanel.offsetWidth;
+        chatPanel.classList.add("chat-warp-in");
+      };
+
+      const playCloseAnimation = () => {
+        chatPanel.classList.remove("chat-warp-in");
+        chatPanel.classList.remove("chat-warp-out");
+        void chatPanel.offsetWidth;
+        chatPanel.classList.add("chat-warp-out");
+      };
+
+      const adjustTextareaHeight = () => {
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+        textarea.style.overflowY = "hidden";
+      };
+
+      const updateSendDisabled = () => {
+        sendButton.disabled = textarea.value.trim().length === 0;
+      };
+
+      const scrollToBottom = () => {
+        requestAnimationFrame(() => {
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+      };
+
+      const appendMessage = (from, text) => {
+        const bubble = document.createElement("div");
+        bubble.className = "chat-bubble";
+        bubble.classList.add(from === "user" ? "user" : "bot");
+        bubble.textContent = text;
+        messagesContainer.appendChild(bubble);
+        scrollToBottom();
+      };
+
+      const openChat = () => {
+        state.open = true;
+        chatPanel.classList.remove("hidden");
+        chatPanel.style.display = "flex";
+        chatPanel.setAttribute("aria-hidden", "false");
+        chatButton.textContent = "Close";
+        chatButton.setAttribute("aria-expanded", "true");
+        chatButton.setAttribute("aria-label", "Close chat");
+        playOpenAnimation();
+
+        if (!state.hasStarterMessage) {
+          appendMessage("bot", STARTER_MESSAGE);
+          state.hasStarterMessage = true;
+        }
+        refreshSuggestions();
+
+        adjustTextareaHeight();
+        textarea.focus();
+      };
+
+      const closeChat = () => {
+        if (!state.open) return;
+        state.open = false;
+        if (suggestionTimer) {
+          clearTimeout(suggestionTimer);
+          suggestionTimer = null;
+        }
+        chatPanel.setAttribute("aria-hidden", "true");
+        chatButton.textContent = "Chat";
+        chatButton.setAttribute("aria-expanded", "false");
+        chatButton.setAttribute("aria-label", "Open chat");
+        playCloseAnimation();
+        chatPanel.addEventListener(
+          "animationend",
+          (event) => {
+            if (event.animationName !== "chatWarpOut") return;
+            if (state.open) return;
+            chatPanel.classList.add("hidden");
+            chatPanel.style.display = "none";
+          },
+          { once: true },
+        );
+      };
+
+      const toggleChat = () => {
+        if (state.open) {
+          closeChat();
+        } else {
+          openChat();
+        }
+      };
+
+      const sendMessage = (preset) => {
+        const rawValue = preset != null ? preset : textarea.value;
+        const trimmed = rawValue.trim();
+        if (!trimmed) return;
+        appendMessage("user", trimmed);
+        const botReply = getBestAnswer(trimmed);
+        appendMessage("bot", botReply);
+        if (preset == null) {
+          textarea.value = "";
+        }
+        adjustTextareaHeight();
+        updateSendDisabled();
+        if (suggestionTimer) {
+          clearTimeout(suggestionTimer);
+        }
+        suggestionTimer = window.setTimeout(() => {
+          refreshSuggestions([trimmed]);
+        }, 220);
+      };
+
+      chatButton.addEventListener("click", toggleChat);
+      closeButton.addEventListener("click", closeChat);
+
+      textarea.addEventListener("input", () => {
+        adjustTextareaHeight();
+        updateSendDisabled();
+      });
+
+      textarea.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+
+      sendButton.addEventListener("click", () => sendMessage());
+    })();
+  </script>
+</body>
+</html>
