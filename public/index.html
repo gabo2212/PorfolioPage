@@ -156,191 +156,6 @@
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
-    .chat-widget {
-      position: relative;
-      width: 100%;
-      max-width: 460px;
-      height: 360px;
-      display: flex;
-      flex-direction: column;
-      background: rgba(7, 10, 18, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 30px 60px -28px rgba(3, 6, 14, 0.75);
-      color: rgba(255, 255, 255, 0.9);
-      overflow: hidden;
-    }
-    .chat-header {
-      height: 46px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      font-weight: 600;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #fff;
-      gap: 12px;
-    }
-    .chat-close {
-      width: 28px;
-      height: 28px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.65);
-      background: transparent;
-      border: none;
-      border-radius: 9999px;
-      cursor: pointer;
-      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
-    }
-    .chat-close:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-      transform: scale(1.05);
-    }
-    .chat-close:focus-visible {
-      outline: 2px solid rgba(120, 169, 255, 0.6);
-      outline-offset: 2px;
-    }
-    .chat-body {
-      flex: 1;
-      padding: 16px 16px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      overflow-y: auto;
-    }
-    .chat-bubble {
-      max-width: 80%;
-      padding: 12px 16px;
-      border-radius: 18px 18px 18px 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      color: #fff;
-      line-height: 1.4;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-      word-break: break-word;
-    }
-    .chat-bubble.bot {
-      align-self: flex-start;
-    }
-    .chat-bubble.user {
-      align-self: flex-end;
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      border: none;
-      border-radius: 18px 18px 6px 18px;
-    }
-    .chat-recom {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 8px 16px 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.02);
-      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0));
-    }
-    .chat-recom.hidden {
-      display: none;
-    }
-    .recom-chip {
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.5);
-      border-radius: 9999px;
-      color: #fff;
-      font-size: 0.78rem;
-      padding: 7px 14px 8px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-    .recom-chip:hover {
-      background: rgba(59, 130, 246, 0.35);
-      transform: translateY(-1px);
-    }
-    .recom-chip:disabled {
-      cursor: default;
-      opacity: 0.55;
-    }
-    .recom-chip--muted {
-      opacity: 0.55;
-    }
-    .recom-chip--sending {
-      animation: chatSuggestionFly 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-      pointer-events: none;
-    }
-    .chat-input-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      padding: 10px 16px 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.03);
-      background: rgba(0, 0, 0, 0.35);
-    }
-    .chat-textarea {
-      flex: 1;
-      min-height: 44px;
-      max-height: 140px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.92);
-      font-size: 0.85rem;
-      line-height: 1.4;
-      resize: none;
-      overflow: hidden;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-    .chat-textarea::placeholder {
-      color: rgba(226, 232, 240, 0.55);
-    }
-    .chat-textarea:focus {
-      border-color: rgba(120, 169, 255, 0.55);
-      box-shadow: 0 0 0 3px rgba(120, 169, 255, 0.16);
-      background: rgba(255, 255, 255, 0.08);
-      outline: none;
-    }
-    .chat-send {
-      flex-shrink: 0;
-      padding: 10px 18px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(57, 128, 255, 0.85), rgba(132, 178, 255, 0.8));
-      border: 1px solid rgba(120, 169, 255, 0.5);
-      color: #fff;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      cursor: pointer;
-      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
-      box-shadow: 0 12px 28px -16px rgba(57, 128, 255, 0.75);
-    }
-    .chat-send:hover:not(:disabled) {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
-      box-shadow: 0 16px 34px -18px rgba(57, 128, 255, 0.78);
-    }
-    .chat-send:active:not(:disabled) {
-      transform: translateY(0);
-      filter: brightness(0.95);
-    }
-    .chat-send:disabled {
-      opacity: 0.55;
-      box-shadow: none;
-      cursor: default;
-    }
-    @media (max-width: 480px) {
-      .chat-widget {
-        max-width: 100%;
-      }
-      .chat-recom {
-        flex-wrap: wrap;
-      }
-    }
     .chat-launcher {
       width: 3.5rem;
       height: 3.5rem;
@@ -944,12 +759,12 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       const FALLBACK =
         "I can answer about: bio, skills, projects (CEObot, Companion AI, VibeCoder), workstyle, experience, education, or contact.";
       const RECOMMENDED_QUESTIONS = [
-        "What projects are you most proud of?",
+        "How do you approach building products?",
         "Can you summarize your AI experience?",
+        "Where did you study AI and computer science?",
+        "What projects are you most proud of?",
         "What skills are you focusing on right now?",
         "Tell me about your Cirque du Soleil role.",
-        "Where did you study AI and computer science?",
-        "How do you approach building products?",
         "What tools are in your daily stack?",
         "How can we best get in touch?",
       ];
@@ -1135,14 +950,12 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
 
       const header = document.createElement("div");
       header.className = "chat-header";
-      const title = document.createElement("span");
-      title.textContent = "ASK ME ABOUT MY WORK";
       const closeButton = document.createElement("button");
       closeButton.type = "button";
       closeButton.className = "chat-close";
       closeButton.setAttribute("aria-label", "Close chat");
       closeButton.textContent = "×";
-      header.appendChild(title);
+      header.append("ASK ME ABOUT MY WORK");
       header.appendChild(closeButton);
 
       const messagesContainer = document.createElement("div");
@@ -1150,7 +963,7 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       messagesContainer.setAttribute("aria-live", "polite");
 
       const suggestionRow = document.createElement("div");
-      suggestionRow.className = "chat-recom hidden";
+      suggestionRow.className = "chat-recom";
 
       const textarea = document.createElement("textarea");
       textarea.rows = 1;
@@ -1184,28 +997,19 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       body.appendChild(chatPanel);
       body.appendChild(chatButton);
 
-    const state = {
-      open: false,
-      hasStarterMessage: false,
-      suggestions: [],
-      activeSuggestion: null,
-    };
-    let suggestionTimer = null;
+      const state = {
+        open: false,
+        hasStarterMessage: false,
+        suggestions: [],
+        activeSuggestion: null,
+      };
+      let suggestionTimer = null;
 
       const pickSuggestions = (exclude = [], count = 3) => {
         const exclusions = new Set(exclude.map((item) => item.toLowerCase()));
-        const pool = RECOMMENDED_QUESTIONS.filter(
+        return RECOMMENDED_QUESTIONS.filter(
           (question) => !exclusions.has(question.toLowerCase()),
-        );
-        const result = [];
-        const max = Math.min(count, pool.length);
-        while (result.length < max) {
-          const candidate = pool[Math.floor(Math.random() * pool.length)];
-          if (!result.includes(candidate)) {
-            result.push(candidate);
-          }
-        }
-        return result;
+        ).slice(0, count);
       };
 
       const renderSuggestions = () => {
@@ -1294,6 +1098,9 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         messagesContainer.appendChild(bubble);
         scrollToBottom();
       };
+
+      appendMessage("bot", STARTER_MESSAGE);
+      state.hasStarterMessage = true;
 
       const openChat = () => {
         state.open = true;
