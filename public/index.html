@@ -103,7 +103,7 @@
     }
     .chat-suggestion--sending {
       animation: chatSuggestionFly 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-      pointer-events: none;
+      pointer-events: auto;
     }
     .chat-suggestion--muted {
       opacity: 0.65;
@@ -952,6 +952,9 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       let animationState = "idle";
       let pendingChip = null;
       let currentChip = null;
+      const clearHideTimer = () => {
+        clearHideTimer();
+      };
 
       const setPopoverPosition = (rect) => {
         const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -996,6 +999,7 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
 
       const requestShow = (chip) => {
         if (!chip) return;
+        clearHideTimer();
         if (animationState === "closing") {
           pendingChip = chip;
           return;
@@ -1008,9 +1012,7 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       };
 
       const hidePopover = (delay = 120) => {
-        if (hideTimer) {
-          window.clearTimeout(hideTimer);
-        }
+        clearHideTimer();
         hideTimer = window.setTimeout(() => {
           if (animationState === "closing" || popover.hidden) {
             hideTimer = null;
@@ -1047,7 +1049,11 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       };
 
       const handleLeave = () => {
-        hidePopover();
+        hidePopover(220);
+      };
+
+      const handleBlur = () => {
+        hidePopover(200);
       };
 
       const handleActivate = (event) => {
@@ -1067,6 +1073,14 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         requestShow(target);
       };
 
+      popover.addEventListener("mouseenter", () => {
+        clearHideTimer();
+      });
+
+      popover.addEventListener("mouseleave", () => {
+        hidePopover(200);
+      });
+
       chips.forEach((chip) => {
         const label = chip.textContent.trim();
         if (!skillDetails[label]) return;
@@ -1077,24 +1091,34 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         chip.addEventListener("mouseenter", handleEnter);
         chip.addEventListener("mouseleave", handleLeave);
         chip.addEventListener("focus", handleEnter);
-        chip.addEventListener("blur", handleLeave);
+        chip.addEventListener("blur", handleBlur);
         chip.addEventListener("click", handleActivate);
         chip.addEventListener("keydown", handleKey);
         chip.addEventListener("touchstart", handleTouch, { passive: true });
-        chip.addEventListener("touchend", handleLeave, { passive: true });
       });
 
       window.addEventListener(
         "scroll",
         () => {
-          if (popover.hidden) return;
-          hidePopover(0);
+          if (popover.hidden || !currentChip) return;
+          setPopoverPosition(currentChip.getBoundingClientRect());
         },
         { passive: true },
       );
 
       window.addEventListener("resize", () => {
+        if (popover.hidden || !currentChip) return;
+        setPopoverPosition(currentChip.getBoundingClientRect());
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        hidePopover(0);
+      });
+
+      document.addEventListener("click", (event) => {
         if (popover.hidden) return;
+        if (event.target.closest(".chip") || event.target.closest("#skill-popover")) return;
         hidePopover(0);
       });
     })();
