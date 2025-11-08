@@ -1,0 +1,12 @@
+{
+  "name": "porfoliosite",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf public && mkdir -p public && npx tailwindcss -i ./input.css -o ./public/style.css --minify && cp public/style.css ./style.css && cp index.html public/index.html && cp -R img public/img"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1",
+    "tailwindcss": "^3.4.0"
+  }
+}
