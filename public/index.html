@@ -205,12 +205,14 @@
       box-shadow: 0 25px 60px -28px rgba(15, 23, 42, 0.9);
       color: #e2e8f0;
       opacity: 0;
-      transform: translate(-50%, -4px) scale(0.95);
-      transition: opacity 0.18s ease, transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transform: translate(-50%, 10px) scale(0.92);
+      will-change: transform, opacity, filter;
     }
-    .skill-popover.is-visible {
-      opacity: 1;
-      transform: translate(-50%, -12px) scale(1);
+    .skill-popover.is-entering {
+      animation: skillPopoverIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .skill-popover.is-leaving {
+      animation: skillPopoverOut 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     .skill-popover__title {
       font-size: 0.8rem;
@@ -230,6 +232,34 @@
       background: rgba(2, 6, 23, 0.98);
       border-color: rgba(99, 102, 241, 0.45);
       box-shadow: 0 28px 65px -32px rgba(15, 23, 42, 1);
+    }
+    @keyframes skillPopoverIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 18px) scale(0.9);
+        filter: blur(12px);
+      }
+      65% {
+        opacity: 1;
+        transform: translate(-50%, -6px) scale(1.03);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -12px) scale(1);
+      }
+    }
+    @keyframes skillPopoverOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -12px) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 6px) scale(0.9);
+        filter: blur(10px);
+      }
     }
     @media (max-width: 640px) {
       .skill-popover {
@@ -916,7 +946,12 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       const bodyEl = popover.querySelector(".skill-popover__body");
       if (!titleEl || !bodyEl) return;
 
+      const ANIMATION_IN_MS = 460;
+      const ANIMATION_OUT_MS = 320;
       let hideTimer = null;
+      let animationState = "idle";
+      let pendingChip = null;
+      let currentChip = null;
 
       const setPopoverPosition = (rect) => {
         const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -929,7 +964,22 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         popover.style.top = `${safeTop}px`;
       };
 
-      const showPopover = (chip) => {
+      const playOpenAnimation = () => {
+        popover.classList.remove("is-leaving");
+        void popover.offsetWidth;
+        popover.classList.add("is-entering");
+        animationState = "opening";
+        window.setTimeout(() => {
+          if (animationState === "opening") {
+            animationState = "open";
+            popover.classList.remove("is-entering");
+          }
+        }, ANIMATION_IN_MS);
+      };
+
+      const startOpen = (chip) => {
+        pendingChip = null;
+        currentChip = chip;
         const label = chip.textContent.trim();
         const detail = skillDetails[label];
         if (!detail) return;
@@ -941,11 +991,20 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         bodyEl.textContent = detail.description;
         setPopoverPosition(chip.getBoundingClientRect());
         popover.hidden = false;
-        if (!popover.classList.contains("is-visible")) {
-          requestAnimationFrame(() => {
-            popover.classList.add("is-visible");
-          });
+        playOpenAnimation();
+      };
+
+      const requestShow = (chip) => {
+        if (!chip) return;
+        if (animationState === "closing") {
+          pendingChip = chip;
+          return;
         }
+        if (currentChip === chip && (animationState === "open" || animationState === "opening")) {
+          setPopoverPosition(chip.getBoundingClientRect());
+          return;
+        }
+        startOpen(chip);
       };
 
       const hidePopover = (delay = 120) => {
@@ -953,26 +1012,38 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
           window.clearTimeout(hideTimer);
         }
         hideTimer = window.setTimeout(() => {
-          popover.classList.remove("is-visible");
+          if (animationState === "closing" || popover.hidden) {
+            hideTimer = null;
+            return;
+          }
+          animationState = "closing";
+          popover.classList.remove("is-entering");
+          popover.classList.add("is-leaving");
           let fallback;
-          const onTransitionEnd = () => {
+          const finishClose = () => {
             popover.hidden = true;
-            popover.removeEventListener("transitionend", onTransitionEnd);
+            popover.classList.remove("is-leaving");
+            animationState = "idle";
+            popover.removeEventListener("animationend", finishClose);
             if (fallback) {
               window.clearTimeout(fallback);
             }
+            if (pendingChip) {
+              const nextChip = pendingChip;
+              pendingChip = null;
+              requestShow(nextChip);
+            }
           };
+          popover.addEventListener("animationend", finishClose);
           fallback = window.setTimeout(() => {
-            popover.hidden = true;
-            popover.removeEventListener("transitionend", onTransitionEnd);
-          }, 240);
-          popover.addEventListener("transitionend", onTransitionEnd);
+            finishClose();
+          }, ANIMATION_OUT_MS + 80);
           hideTimer = null;
         }, delay);
       };
 
       const handleEnter = (event) => {
-        showPopover(event.currentTarget);
+        requestShow(event.currentTarget);
       };
 
       const handleLeave = () => {
@@ -981,22 +1052,19 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
 
       const handleActivate = (event) => {
         event.preventDefault();
-        showPopover(event.currentTarget);
-        hidePopover(2600);
+        requestShow(event.currentTarget);
       };
 
       const handleKey = (event) => {
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
-        showPopover(event.currentTarget);
-        hidePopover(2600);
+        requestShow(event.currentTarget);
       };
 
       const handleTouch = (event) => {
         const target = event.currentTarget || event.target;
         if (!target) return;
-        showPopover(target);
-        hidePopover(2600);
+        requestShow(target);
       };
 
       chips.forEach((chip) => {
@@ -1013,19 +1081,20 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         chip.addEventListener("click", handleActivate);
         chip.addEventListener("keydown", handleKey);
         chip.addEventListener("touchstart", handleTouch, { passive: true });
+        chip.addEventListener("touchend", handleLeave, { passive: true });
       });
 
       window.addEventListener(
         "scroll",
         () => {
-          if (!popover.classList.contains("is-visible")) return;
+          if (popover.hidden) return;
           hidePopover(0);
         },
         { passive: true },
       );
 
       window.addEventListener("resize", () => {
-        if (!popover.classList.contains("is-visible")) return;
+        if (popover.hidden) return;
         hidePopover(0);
       });
     })();
