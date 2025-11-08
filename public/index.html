@@ -182,6 +182,61 @@
       box-shadow: 0 22px 44px -26px rgba(99, 102, 241, 0.8);
     }
   </style>
+  <style id="skill-tooltips">
+    .chip[data-skill-popover="true"] {
+      cursor: pointer;
+      position: relative;
+      outline: none;
+      transition: box-shadow 0.2s ease;
+    }
+    .chip[data-skill-popover="true"]:focus-visible {
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.45), 0 0 0 4px rgba(99, 102, 241, 0.15);
+    }
+    .skill-popover {
+      position: fixed;
+      z-index: 90;
+      pointer-events: none;
+      min-width: 220px;
+      max-width: 280px;
+      padding: 0.85rem 1rem;
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 25px 60px -28px rgba(15, 23, 42, 0.9);
+      color: #e2e8f0;
+      opacity: 0;
+      transform: translate(-50%, -4px) scale(0.95);
+      transition: opacity 0.18s ease, transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .skill-popover.is-visible {
+      opacity: 1;
+      transform: translate(-50%, -12px) scale(1);
+    }
+    .skill-popover__title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #c7d2fe;
+      margin-bottom: 0.3rem;
+    }
+    .skill-popover__body {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: #f1f5f9;
+    }
+    .dark .skill-popover {
+      background: rgba(2, 6, 23, 0.98);
+      border-color: rgba(99, 102, 241, 0.45);
+      box-shadow: 0 28px 65px -32px rgba(15, 23, 42, 1);
+    }
+    @media (max-width: 640px) {
+      .skill-popover {
+        max-width: 90vw;
+      }
+    }
+  </style>
 </head>
 <body class="relative min-h-screen antialiased transition bg-dawn text-slate-900 dark:bg-night dark:text-slate-100">
   <div class="fixed inset-0 pointer-events-none -z-10">
@@ -615,6 +670,366 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       © 2025 Gabriel Fortin. All rights reserved.
     </div>
   </footer>
+  <div id="skill-popover" class="skill-popover" role="status" aria-live="polite" hidden>
+    <div class="skill-popover__title"></div>
+    <p class="skill-popover__body"></p>
+  </div>
+  <script>
+    (function () {
+      if (typeof window === "undefined") return;
+
+      const skillDetails = {
+        "AI & ML systems": {
+          title: "AI & ML systems",
+          description:
+            "Design retrieval pipelines and orchestration layers that keep agents helpful and on-brand for property automation and voice copilots.",
+        },
+        "Full-stack product work": {
+          title: "Full-stack product work",
+          description:
+            "Own everything from UI polish to backend infra so experiments ship as dashboards, chat apps, and ops tools people actually use.",
+        },
+        "Infrastructure & reliability": {
+          title: "Infrastructure & reliability",
+          description:
+            "Harden services with monitoring, backups, and fallbacks so voice agents and APIs stay online when traffic spikes.",
+        },
+        "Real-time systems": {
+          title: "Real-time systems",
+          description:
+            "Build low-latency loops for chat, voice, and game integrations that continuously stream context and react instantly.",
+        },
+        "C#": {
+          title: "C# · .NET 8",
+          description:
+            "Primary language for CEObot, delivering high-throughput REST APIs and background jobs with strict typing and async speed.",
+        },
+        Python: {
+          title: "Python · Fast iteration",
+          description:
+            "Goes-to for FastAPI backends, Grok/OpenAI orchestration, and automation scripts where rapid prototyping matters.",
+        },
+        Java: {
+          title: "Java · JVM power",
+          description:
+            "Used for Forge mods and backend services where the JVM ecosystem and tooling unlock deep integrations.",
+        },
+        JavaScript: {
+          title: "JavaScript",
+          description:
+            "Adds interactive flourishes to dashboards and marketing pages, keeping UX lively without pulling in heavy frameworks.",
+        },
+        TypeScript: {
+          title: "TypeScript",
+          description:
+            "Brings type safety to complex frontends and cloud scripts so regressions get caught before deployment.",
+        },
+        HTML: {
+          title: "HTML",
+          description:
+            "Crafts semantic layouts for every section (projects, skills, contact) so accessibility and SEO foundations stay solid.",
+        },
+        CSS: {
+          title: "CSS",
+          description:
+            "Hand-tunes bespoke gradients, glassmorphism, and motion states beyond what utility classes can express.",
+        },
+        "Tailwind CSS": {
+          title: "Tailwind CSS",
+          description:
+            "Utility-first system that keeps styling consistent, responsive, and theme-friendly across the portfolio.",
+        },
+        Bash: {
+          title: "Bash",
+          description:
+            "Automates deployments, log scraping, and server health checks across Linux boxes in just a few lines.",
+        },
+        "ASP.NET Core": {
+          title: "ASP.NET Core",
+          description:
+            "Production-grade framework for REST APIs with authentication, background workers, and SignalR style real-time channels.",
+        },
+        FastAPI: {
+          title: "FastAPI",
+          description:
+            "Lightweight Python framework for AI gateways, webhooks, and companion bots complete with automatic OpenAPI docs.",
+        },
+        "Forge (Minecraft)": {
+          title: "Forge (Minecraft)",
+          description:
+            "Hooks into Minecraft events for Companion AI, streaming player health, combat, and location data to LLMs live.",
+        },
+        "Entity Framework Core": {
+          title: "Entity Framework Core",
+          description:
+            "Code-first ORM that evolves CEObot schemas safely while keeping migrations in source control.",
+        },
+        Gradle: {
+          title: "Gradle",
+          description:
+            "Builds and packages Java mods with clean dependency management and reproducible artifacts.",
+        },
+        Git: {
+          title: "Git",
+          description:
+            "Backs every project with branching discipline, code reviews, and fast rollbacks when experiments misbehave.",
+        },
+        "VS Code": {
+          title: "VS Code",
+          description:
+            "Primary IDE with devcontainers, tasks, and debugger presets tailored to .NET, Python, and web stacks.",
+        },
+        SQLite: {
+          title: "SQLite",
+          description:
+            "Lightweight relational store for agents and prototypes that still need transactions and durability.",
+        },
+        "PostgreSQL (planned)": {
+          title: "PostgreSQL",
+          description:
+            "Target database for scaling AI memory (pgvector) and analytics once workloads outgrow SQLite.",
+        },
+        "JSON configs": {
+          title: "JSON configs",
+          description:
+            "Model personalities, routing rules, and infrastructure knobs live in JSON so behavior can change without redeploying.",
+        },
+        "REST APIs": {
+          title: "REST APIs",
+          description:
+            "Design versioned contracts that connect dashboards, voice clients, and automation bots without breaking changes.",
+        },
+        "GrokAI API": {
+          title: "GrokAI API",
+          description:
+            "Bring witty, fast responses into assistants like Asuka AI, especially for pop-culture flavored prompts.",
+        },
+        "OpenAI API": {
+          title: "OpenAI API",
+          description:
+            "Handles structured reasoning, summarization, and fallback generation when reliability is non-negotiable.",
+        },
+        "Coqui XTTS-v2": {
+          title: "Coqui XTTS-v2",
+          description:
+            "Delivers lifelike TTS for in-game narrators and AI companions with custom voice cloning.",
+        },
+        ElevenLabs: {
+          title: "ElevenLabs",
+          description:
+            "Premium speech synthesis option when projects need ultra-polished, emotionally aware vocals.",
+        },
+        "Razor Pages": {
+          title: "Razor Pages",
+          description:
+            "Server-rendered .NET UI layer for dashboards that need tight coupling with backend logic.",
+        },
+        "Responsive CSS": {
+          title: "Responsive CSS",
+          description:
+            "Ensures every layout adapts from phones to ultrawide monitors without duplicating markup.",
+        },
+        Flexbox: {
+          title: "Flexbox",
+          description:
+            "Aligns cards, chip groups, and CTA rails with predictable spacing at any breakpoint.",
+        },
+        Grid: {
+          title: "CSS Grid",
+          description:
+            "Powering the skills and project galleries with surgical control over columns and rhythm.",
+        },
+        "Google Cloud VM": {
+          title: "Google Cloud VM",
+          description:
+            "Hosts production bots on hardened Debian boxes with custom monitoring and firewall rules.",
+        },
+        Caddy: {
+          title: "Caddy",
+          description:
+            "Zero-fuss HTTPS proxy that routes domains to FastAPI or .NET services with automatic certificate renewals.",
+        },
+        Systemd: {
+          title: "Systemd",
+          description:
+            "Keeps workers, bots, and voice relays supervised with restart policies and structured logs.",
+        },
+        "Docker (learning)": {
+          title: "Docker",
+          description:
+            "Containerizing each stack so local dev, CI, and cloud deploys match exactly.",
+        },
+        JWT: {
+          title: "JWT",
+          description:
+            "Stateless auth tokens powering secure dashboards, APIs, and mobile clients.",
+        },
+        Cookies: {
+          title: "Cookies",
+          description:
+            "Handle session continuity for dashboards, previews, and admin tools without leaking secrets.",
+        },
+        CSRF: {
+          title: "CSRF protection",
+          description:
+            "Guards form submissions and auth flows across every server-rendered endpoint.",
+        },
+        CORS: {
+          title: "CORS",
+          description:
+            "Locks down which frontends can hit private APIs, blocking random origins by default.",
+        },
+        "API Keys": {
+          title: "API Keys",
+          description:
+            "Simple, revocable credentials for integrating third-party services and internal tooling.",
+        },
+        Journalctl: {
+          title: "journalctl",
+          description:
+            "Primary log viewer while debugging services on Linux servers during live incidents.",
+        },
+        Postman: {
+          title: "Postman",
+          description:
+            "Runs request collections to regression-test APIs and document payloads for collaborators.",
+        },
+        Curl: {
+          title: "cURL",
+          description:
+            "Quick CLI pings for webhooks and internal endpoints when Postman would be overkill.",
+        },
+        "Console Logs": {
+          title: "Console logs",
+          description:
+            "Fastest signal while iterating on UI states and scripts before wiring up full telemetry.",
+        },
+      };
+
+      const chips = Array.from(document.querySelectorAll(".chip"));
+      if (!chips.length) return;
+
+      const popover = document.getElementById("skill-popover");
+      if (!popover) return;
+
+      const titleEl = popover.querySelector(".skill-popover__title");
+      const bodyEl = popover.querySelector(".skill-popover__body");
+      if (!titleEl || !bodyEl) return;
+
+      let hideTimer = null;
+
+      const setPopoverPosition = (rect) => {
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const centerX = rect.left + rect.width / 2;
+        const clampedX = Math.min(Math.max(centerX, 24), viewportWidth - 24);
+        const desiredTop = rect.top - 22;
+        const safeTop = Math.min(Math.max(desiredTop, 16), viewportHeight - 24);
+        popover.style.left = `${clampedX}px`;
+        popover.style.top = `${safeTop}px`;
+      };
+
+      const showPopover = (chip) => {
+        const label = chip.textContent.trim();
+        const detail = skillDetails[label];
+        if (!detail) return;
+        if (hideTimer) {
+          window.clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+        titleEl.textContent = detail.title || label;
+        bodyEl.textContent = detail.description;
+        setPopoverPosition(chip.getBoundingClientRect());
+        popover.hidden = false;
+        if (!popover.classList.contains("is-visible")) {
+          requestAnimationFrame(() => {
+            popover.classList.add("is-visible");
+          });
+        }
+      };
+
+      const hidePopover = (delay = 120) => {
+        if (hideTimer) {
+          window.clearTimeout(hideTimer);
+        }
+        hideTimer = window.setTimeout(() => {
+          popover.classList.remove("is-visible");
+          let fallback;
+          const onTransitionEnd = () => {
+            popover.hidden = true;
+            popover.removeEventListener("transitionend", onTransitionEnd);
+            if (fallback) {
+              window.clearTimeout(fallback);
+            }
+          };
+          fallback = window.setTimeout(() => {
+            popover.hidden = true;
+            popover.removeEventListener("transitionend", onTransitionEnd);
+          }, 240);
+          popover.addEventListener("transitionend", onTransitionEnd);
+          hideTimer = null;
+        }, delay);
+      };
+
+      const handleEnter = (event) => {
+        showPopover(event.currentTarget);
+      };
+
+      const handleLeave = () => {
+        hidePopover();
+      };
+
+      const handleActivate = (event) => {
+        event.preventDefault();
+        showPopover(event.currentTarget);
+        hidePopover(2600);
+      };
+
+      const handleKey = (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        showPopover(event.currentTarget);
+        hidePopover(2600);
+      };
+
+      const handleTouch = (event) => {
+        const target = event.currentTarget || event.target;
+        if (!target) return;
+        showPopover(target);
+        hidePopover(2600);
+      };
+
+      chips.forEach((chip) => {
+        const label = chip.textContent.trim();
+        if (!skillDetails[label]) return;
+        chip.dataset.skillPopover = "true";
+        chip.setAttribute("tabindex", "0");
+        chip.setAttribute("role", "button");
+        chip.setAttribute("aria-label", `${label} skill details`);
+        chip.addEventListener("mouseenter", handleEnter);
+        chip.addEventListener("mouseleave", handleLeave);
+        chip.addEventListener("focus", handleEnter);
+        chip.addEventListener("blur", handleLeave);
+        chip.addEventListener("click", handleActivate);
+        chip.addEventListener("keydown", handleKey);
+        chip.addEventListener("touchstart", handleTouch, { passive: true });
+      });
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!popover.classList.contains("is-visible")) return;
+          hidePopover(0);
+        },
+        { passive: true },
+      );
+
+      window.addEventListener("resize", () => {
+        if (!popover.classList.contains("is-visible")) return;
+        hidePopover(0);
+      });
+    })();
+  </script>
   <script>
     const openButtons = document.querySelectorAll('[data-case-target]');
     const closeTriggers = document.querySelectorAll('[data-close-case]');
