@@ -316,93 +316,9 @@
       }
     }
   </style>
-  <style id="skill-tooltips">
-    .chip[data-skill-popover="true"] {
-      cursor: pointer;
-      position: relative;
-      outline: none;
-      transition: box-shadow 0.2s ease;
-    }
-    .chip[data-skill-popover="true"]:focus-visible {
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.45), 0 0 0 4px rgba(99, 102, 241, 0.15);
-    }
-    .skill-popover {
-      position: fixed;
-      z-index: 90;
-      pointer-events: auto;
-      min-width: 220px;
-      max-width: 280px;
-      padding: 0.85rem 1rem;
-      border-radius: 1rem;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow: 0 25px 60px -28px rgba(15, 23, 42, 0.9);
-      color: #e2e8f0;
-      opacity: 0;
-      transform: translate(-50%, 10px) scale(0.92);
-      will-change: transform, opacity, filter;
-    }
-    .skill-popover.is-entering {
-      animation: skillPopoverIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .skill-popover.is-leaving {
-      animation: skillPopoverOut 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    .skill-popover__title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #c7d2fe;
-      margin-bottom: 0.3rem;
-    }
-    .skill-popover__body {
-      margin: 0;
-      font-size: 0.82rem;
-      line-height: 1.4;
-      color: #f1f5f9;
-    }
-    .dark .skill-popover {
-      background: rgba(2, 6, 23, 0.98);
-      border-color: rgba(99, 102, 241, 0.45);
-      box-shadow: 0 28px 65px -32px rgba(15, 23, 42, 1);
-    }
-    @keyframes skillPopoverIn {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, 18px) scale(0.9);
-        filter: blur(12px);
-      }
-      65% {
-        opacity: 1;
-        transform: translate(-50%, -6px) scale(1.03);
-        filter: blur(0);
-      }
-      100% {
-        opacity: 1;
-        transform: translate(-50%, -12px) scale(1);
-      }
-    }
-    @keyframes skillPopoverOut {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -12px) scale(1);
-        filter: blur(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, 6px) scale(0.9);
-        filter: blur(10px);
-      }
-    }
-    @media (max-width: 640px) {
-      .skill-popover {
-        max-width: 90vw;
-      }
-    }
-  </style>
 </head>
 <body class="relative min-h-screen antialiased transition bg-dawn text-slate-900 dark:bg-night dark:text-slate-100">
+  <canvas id="bg-network"></canvas>
   <div class="fixed inset-0 pointer-events-none -z-10">
     <div class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-accent-300/40 blur-[120px] dark:bg-accent-500/25"></div>
     <div class="absolute right-[-120px] top-1/3 h-[420px] w-[420px] rounded-full bg-purple-400/30 blur-[120px] dark:bg-purple-500/25"></div>
@@ -473,7 +389,7 @@
       <div class="max-w-5xl px-6 mx-auto">
         <h2 id="about-title" class="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl dark:text-white">About</h2>
         <div class="grid gap-8 mt-12 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-10">
-          <div class="h-full space-y-6 glass-panel text-slate-700 dark:text-slate-200">
+          <div class="h-full space-y-6 glass-panel glass-panel-overflow text-slate-700 dark:text-slate-200">
             <p class="text-lg leading-relaxed">
               <!-- TODO: Replace with your bio -->
               I’m a developer focused on building intelligent, production-ready systems that merge software engineering with artificial intelligence. My work spans full-stack web platforms and advanced AI pipelines, with a strong emphasis on automation, scalability, and real-time interaction.
@@ -482,10 +398,42 @@
               I thrive at the intersection of backend architecture and applied AI — designing systems that are not only robust and secure but also adaptive and responsive to complex, real-world demands.
             </p>
             <ul class="flex flex-wrap gap-3 pt-2 text-sm font-medium list-none">
-              <li><span class="chip">AI &amp; ML systems</span></li>
-              <li><span class="chip">Full-stack product work</span></li>
-              <li><span class="chip">Infrastructure &amp; reliability</span></li>
-              <li><span class="chip">Real-time systems</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">AI &amp; ML systems</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">AI &amp; ML systems</p>
+                    <p class="skill-tooltip__body">Design retrieval pipelines and orchestration layers that keep agents helpful and on-brand for property automation and voice copilots.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Full-stack product work</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Full-stack product work</p>
+                    <p class="skill-tooltip__body">Own everything from UI polish to backend infra so experiments ship as dashboards, chat apps, and ops tools people actually use.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Infrastructure &amp; reliability</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Infrastructure &amp; reliability</p>
+                    <p class="skill-tooltip__body">Harden services with monitoring, backups, and fallbacks so voice agents and APIs stay online when traffic spikes.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Real-time systems</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Real-time systems</p>
+                    <p class="skill-tooltip__body">Build low-latency loops for chat, voice, and game integrations that continuously stream context and react instantly.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
           <aside class="h-full space-y-5 glass-panel" aria-labelledby="skills-title">
@@ -505,101 +453,429 @@
 
         <div class="mt-16 glass-grid">
           <!-- TODO: Add or remove skills below -->
-          <article class="relative flex flex-col gap-6 group glass-panel glass-tight">
+          <article class="relative flex flex-col gap-6 group glass-panel glass-panel-overflow glass-tight">
             <div class="absolute w-24 h-24 transition rounded-full pointer-events-none -left-14 top-10 bg-accent-300/25 blur-3xl group-hover:translate-x-6"></div>
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Core Languages</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">C#</span></li>
-              <li><span class="chip">Python</span></li>
-              <li><span class="chip">Java</span></li>
-              <li><span class="chip">JavaScript</span></li>
-              <li><span class="chip">TypeScript</span></li>
-              <li><span class="chip">HTML</span></li>
-              <li><span class="chip">CSS</span></li>
-              <li><span class="chip">Tailwind CSS</span></li>
-              <li><span class="chip">Bash</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">C#</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">C# · .NET 8</p>
+                    <p class="skill-tooltip__body">Primary language for CEObot, delivering high-throughput REST APIs and background jobs with strict typing and async speed.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Python</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Python · Fast iteration</p>
+                    <p class="skill-tooltip__body">Goes-to for FastAPI backends, Grok/OpenAI orchestration, and automation scripts where rapid prototyping matters.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Java</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Java · JVM power</p>
+                    <p class="skill-tooltip__body">Used for Forge mods and backend services where the JVM ecosystem and tooling unlock deep integrations.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">JavaScript</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">JavaScript</p>
+                    <p class="skill-tooltip__body">Adds interactive flourishes to dashboards and marketing pages, keeping UX lively without pulling in heavy frameworks.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">TypeScript</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">TypeScript</p>
+                    <p class="skill-tooltip__body">Brings type safety to complex frontends and cloud scripts so regressions get caught before deployment.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">HTML</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">HTML</p>
+                    <p class="skill-tooltip__body">Crafts semantic layouts for every section (projects, skills, contact) so accessibility and SEO foundations stay solid.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">CSS</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">CSS</p>
+                    <p class="skill-tooltip__body">Hand-tunes bespoke gradients, glassmorphism, and motion states beyond what utility classes can express.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Tailwind CSS</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Tailwind CSS</p>
+                    <p class="skill-tooltip__body">Utility-first system that keeps styling consistent, responsive, and theme-friendly across the portfolio.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Bash</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Bash</p>
+                    <p class="skill-tooltip__body">Automates deployments, log scraping, and server health checks across Linux boxes in just a few lines.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="relative flex flex-col gap-6 group glass-panel glass-tight">
+          <article class="relative flex flex-col gap-6 group glass-panel glass-panel-overflow glass-tight">
             <div class="absolute transition rounded-full pointer-events-none -right-14 top-16 h-28 w-28 bg-indigo-300/25 blur-3xl group-hover:-translate-y-6"></div>
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frameworks &amp; Tools</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">ASP.NET Core</span></li>
-              <li><span class="chip">FastAPI</span></li>
-              <li><span class="chip">Forge (Minecraft)</span></li>
-              <li><span class="chip">Entity Framework Core</span></li>
-              <li><span class="chip">Gradle</span></li>
-              <li><span class="chip">Git</span></li>
-              <li><span class="chip">VS Code</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">ASP.NET Core</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">ASP.NET Core</p>
+                    <p class="skill-tooltip__body">Production-grade framework for REST APIs with authentication, background workers, and SignalR style real-time channels.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">FastAPI</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">FastAPI</p>
+                    <p class="skill-tooltip__body">Lightweight Python framework for AI gateways, webhooks, and companion bots complete with automatic OpenAPI docs.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Forge (Minecraft)</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Forge (Minecraft)</p>
+                    <p class="skill-tooltip__body">Hooks into Minecraft events for Companion AI, streaming player health, combat, and location data to LLMs live.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Entity Framework Core</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Entity Framework Core</p>
+                    <p class="skill-tooltip__body">Code-first ORM that evolves CEObot schemas safely while keeping migrations in source control.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Gradle</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Gradle</p>
+                    <p class="skill-tooltip__body">Builds and packages Java mods with clean dependency management and reproducible artifacts.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Git</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Git</p>
+                    <p class="skill-tooltip__body">Backs every project with branching discipline, code reviews, and fast rollbacks when experiments misbehave.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">VS Code</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">VS Code</p>
+                    <p class="skill-tooltip__body">Primary IDE with devcontainers, tasks, and debugger presets tailored to .NET, Python, and web stacks.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="flex flex-col gap-6 glass-panel glass-tight">
+          <article class="flex flex-col gap-6 glass-panel glass-panel-overflow glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Backend &amp; Databases</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">SQLite</span></li>
-              <li><span class="chip">PostgreSQL (planned)</span></li>
-              <li><span class="chip">JSON configs</span></li>
-              <li><span class="chip">REST APIs</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">SQLite</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">SQLite</p>
+                    <p class="skill-tooltip__body">Lightweight relational store for agents and prototypes that still need transactions and durability.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">PostgreSQL (planned)</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">PostgreSQL</p>
+                    <p class="skill-tooltip__body">Target database for scaling AI memory (pgvector) and analytics once workloads outgrow SQLite.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">JSON configs</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">JSON configs</p>
+                    <p class="skill-tooltip__body">Model personalities, routing rules, and infrastructure knobs live in JSON so behavior can change without redeploying.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">REST APIs</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">REST APIs</p>
+                    <p class="skill-tooltip__body">Design versioned contracts that connect dashboards, voice clients, and automation bots without breaking changes.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="flex flex-col gap-6 glass-panel glass-tight">
+          <article class="flex flex-col gap-6 glass-panel glass-panel-overflow glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">AI &amp; Voice Integration</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">GrokAI API</span></li>
-              <li><span class="chip">OpenAI API</span></li>
-              <li><span class="chip">Coqui XTTS-v2</span></li>
-              <li><span class="chip">ElevenLabs</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">GrokAI API</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">GrokAI API</p>
+                    <p class="skill-tooltip__body">Bring witty, fast responses into assistants like Asuka AI, especially for pop-culture flavored prompts.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">OpenAI API</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">OpenAI API</p>
+                    <p class="skill-tooltip__body">Handles structured reasoning, summarization, and fallback generation when reliability is non-negotiable.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Coqui XTTS-v2</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Coqui XTTS-v2</p>
+                    <p class="skill-tooltip__body">Delivers lifelike TTS for in-game narrators and AI companions with custom voice cloning.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">ElevenLabs</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">ElevenLabs</p>
+                    <p class="skill-tooltip__body">Premium speech synthesis option when projects need ultra-polished, emotionally aware vocals.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="flex flex-col gap-6 glass-panel glass-tight">
+          <article class="flex flex-col gap-6 glass-panel glass-panel-overflow glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Frontend &amp; UI</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">Razor Pages</span></li>
-              <li><span class="chip">Responsive CSS</span></li>
-              <li><span class="chip">Flexbox</span></li>
-              <li><span class="chip">Grid</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Razor Pages</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Razor Pages</p>
+                    <p class="skill-tooltip__body">Server-rendered .NET UI layer for dashboards that need tight coupling with backend logic.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Responsive CSS</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Responsive CSS</p>
+                    <p class="skill-tooltip__body">Ensures every layout adapts from phones to ultrawide monitors without duplicating markup.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Flexbox</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Flexbox</p>
+                    <p class="skill-tooltip__body">Aligns cards, chip groups, and CTA rails with predictable spacing at any breakpoint.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Grid</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">CSS Grid</p>
+                    <p class="skill-tooltip__body">Powering the skills and project galleries with surgical control over columns and rhythm.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="flex flex-col gap-6 glass-panel glass-tight">
+          <article class="flex flex-col gap-6 glass-panel glass-panel-overflow glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">DevOps &amp; Cloud</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">Google Cloud VM</span></li>
-              <li><span class="chip">Caddy</span></li>
-              <li><span class="chip">Systemd</span></li>
-              <li><span class="chip">Docker (learning)</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Google Cloud VM</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Google Cloud VM</p>
+                    <p class="skill-tooltip__body">Hosts production bots on hardened Debian boxes with custom monitoring and firewall rules.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Caddy</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Caddy</p>
+                    <p class="skill-tooltip__body">Zero-fuss HTTPS proxy that routes domains to FastAPI or .NET services with automatic certificate renewals.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Systemd</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Systemd</p>
+                    <p class="skill-tooltip__body">Keeps workers, bots, and voice relays supervised with restart policies and structured logs.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Docker (learning)</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Docker</p>
+                    <p class="skill-tooltip__body">Containerizing each stack so local dev, CI, and cloud deploys match exactly.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="flex flex-col gap-6 glass-panel glass-tight">
+          <article class="flex flex-col gap-6 glass-panel glass-panel-overflow glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Security &amp; Auth</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">JWT</span></li>
-              <li><span class="chip">Cookies</span></li>
-              <li><span class="chip">CSRF</span></li>
-              <li><span class="chip">CORS</span></li>
-              <li><span class="chip">API Keys</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">JWT</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">JWT</p>
+                    <p class="skill-tooltip__body">Stateless auth tokens powering secure dashboards, APIs, and mobile clients.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Cookies</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Cookies</p>
+                    <p class="skill-tooltip__body">Handle session continuity for dashboards, previews, and admin tools without leaking secrets.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">CSRF</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">CSRF protection</p>
+                    <p class="skill-tooltip__body">Guards form submissions and auth flows across every server-rendered endpoint.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">CORS</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">CORS</p>
+                    <p class="skill-tooltip__body">Locks down which frontends can hit private APIs, blocking random origins by default.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">API Keys</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">API Keys</p>
+                    <p class="skill-tooltip__body">Simple, revocable credentials for integrating third-party services and internal tooling.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
 
-          <article class="flex flex-col gap-6 glass-panel glass-tight">
+          <article class="flex flex-col gap-6 glass-panel glass-panel-overflow glass-tight">
             <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">Monitoring &amp; Debug</h3>
             <ul class="flex flex-wrap gap-3">
-              <li><span class="chip">Journalctl</span></li>
-              <li><span class="chip">Postman</span></li>
-              <li><span class="chip">Curl</span></li>
-              <li><span class="chip">Console Logs</span></li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Journalctl</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">journalctl</p>
+                    <p class="skill-tooltip__body">Primary log viewer while debugging services on Linux servers during live incidents.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Postman</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Postman</p>
+                    <p class="skill-tooltip__body">Runs request collections to regression-test APIs and document payloads for collaborators.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Curl</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">cURL</p>
+                    <p class="skill-tooltip__body">Quick CLI pings for webhooks and internal endpoints when Postman would be overkill.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-pill">
+                  <button type="button" class="chip">Console Logs</button>
+                  <div class="skill-tooltip">
+                    <p class="skill-tooltip__title">Console logs</p>
+                    <p class="skill-tooltip__body">Fastest signal while iterating on UI states and scripts before wiring up full telemetry.</p>
+                  </div>
+                </div>
+              </li>
             </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="relative py-24 bg-gradient-to-b from-white via-white to-slate-100 dark:from-night dark:via-night dark:to-dusk" aria-labelledby="projects-title">
+    <section id="projects" class="relative py-24" aria-labelledby="projects-title">
       <div class="max-w-6xl px-6 mx-auto">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -632,7 +908,7 @@
               <span class="absolute inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm left-4 top-4 bg-white/85 text-slate-700 dark:bg-slate-900/75 dark:text-slate-200">AI · Game Integration · Voice · Agent · Realtime</span>
             </div>
             <div class="flex flex-col flex-1 gap-4 px-6 py-6">
-              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Asuka AI</h3>
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white">ML AI</h3>
               <p class="text-sm text-slate-600 dark:text-slate-300">Intelligent Minecraft companion using Grok + Coqui XTTS for live, context-aware voice interactions.</p>
               <a href="#case-project-two" data-case-target="case-project-two" class="inline-flex items-center gap-2 mt-auto text-sm font-semibold transition cursor-pointer text-accent-600 hover:gap-3 dark:text-accent-400" aria-label="Open case study for Project Two">View details →</a>
             </div>
@@ -834,467 +1110,6 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       © 2025 Gabriel Fortin. All rights reserved.
     </div>
   </footer>
-  <div id="skill-popover" class="skill-popover" role="status" aria-live="polite" hidden>
-    <div class="skill-popover__title"></div>
-    <p class="skill-popover__body"></p>
-  </div>
-  <script>
-    (function () {
-      if (typeof window === "undefined") return;
-
-      const skillDetails = {
-        "AI & ML systems": {
-          title: "AI & ML systems",
-          description:
-            "Design retrieval pipelines and orchestration layers that keep agents helpful and on-brand for property automation and voice copilots.",
-        },
-        "Full-stack product work": {
-          title: "Full-stack product work",
-          description:
-            "Own everything from UI polish to backend infra so experiments ship as dashboards, chat apps, and ops tools people actually use.",
-        },
-        "Infrastructure & reliability": {
-          title: "Infrastructure & reliability",
-          description:
-            "Harden services with monitoring, backups, and fallbacks so voice agents and APIs stay online when traffic spikes.",
-        },
-        "Real-time systems": {
-          title: "Real-time systems",
-          description:
-            "Build low-latency loops for chat, voice, and game integrations that continuously stream context and react instantly.",
-        },
-        "C#": {
-          title: "C# · .NET 8",
-          description:
-            "Primary language for CEObot, delivering high-throughput REST APIs and background jobs with strict typing and async speed.",
-        },
-        Python: {
-          title: "Python · Fast iteration",
-          description:
-            "Goes-to for FastAPI backends, Grok/OpenAI orchestration, and automation scripts where rapid prototyping matters.",
-        },
-        Java: {
-          title: "Java · JVM power",
-          description:
-            "Used for Forge mods and backend services where the JVM ecosystem and tooling unlock deep integrations.",
-        },
-        JavaScript: {
-          title: "JavaScript",
-          description:
-            "Adds interactive flourishes to dashboards and marketing pages, keeping UX lively without pulling in heavy frameworks.",
-        },
-        TypeScript: {
-          title: "TypeScript",
-          description:
-            "Brings type safety to complex frontends and cloud scripts so regressions get caught before deployment.",
-        },
-        HTML: {
-          title: "HTML",
-          description:
-            "Crafts semantic layouts for every section (projects, skills, contact) so accessibility and SEO foundations stay solid.",
-        },
-        CSS: {
-          title: "CSS",
-          description:
-            "Hand-tunes bespoke gradients, glassmorphism, and motion states beyond what utility classes can express.",
-        },
-        "Tailwind CSS": {
-          title: "Tailwind CSS",
-          description:
-            "Utility-first system that keeps styling consistent, responsive, and theme-friendly across the portfolio.",
-        },
-        Bash: {
-          title: "Bash",
-          description:
-            "Automates deployments, log scraping, and server health checks across Linux boxes in just a few lines.",
-        },
-        "ASP.NET Core": {
-          title: "ASP.NET Core",
-          description:
-            "Production-grade framework for REST APIs with authentication, background workers, and SignalR style real-time channels.",
-        },
-        FastAPI: {
-          title: "FastAPI",
-          description:
-            "Lightweight Python framework for AI gateways, webhooks, and companion bots complete with automatic OpenAPI docs.",
-        },
-        "Forge (Minecraft)": {
-          title: "Forge (Minecraft)",
-          description:
-            "Hooks into Minecraft events for Companion AI, streaming player health, combat, and location data to LLMs live.",
-        },
-        "Entity Framework Core": {
-          title: "Entity Framework Core",
-          description:
-            "Code-first ORM that evolves CEObot schemas safely while keeping migrations in source control.",
-        },
-        Gradle: {
-          title: "Gradle",
-          description:
-            "Builds and packages Java mods with clean dependency management and reproducible artifacts.",
-        },
-        Git: {
-          title: "Git",
-          description:
-            "Backs every project with branching discipline, code reviews, and fast rollbacks when experiments misbehave.",
-        },
-        "VS Code": {
-          title: "VS Code",
-          description:
-            "Primary IDE with devcontainers, tasks, and debugger presets tailored to .NET, Python, and web stacks.",
-        },
-        SQLite: {
-          title: "SQLite",
-          description:
-            "Lightweight relational store for agents and prototypes that still need transactions and durability.",
-        },
-        "PostgreSQL (planned)": {
-          title: "PostgreSQL",
-          description:
-            "Target database for scaling AI memory (pgvector) and analytics once workloads outgrow SQLite.",
-        },
-        "JSON configs": {
-          title: "JSON configs",
-          description:
-            "Model personalities, routing rules, and infrastructure knobs live in JSON so behavior can change without redeploying.",
-        },
-        "REST APIs": {
-          title: "REST APIs",
-          description:
-            "Design versioned contracts that connect dashboards, voice clients, and automation bots without breaking changes.",
-        },
-        "GrokAI API": {
-          title: "GrokAI API",
-          description:
-            "Bring witty, fast responses into assistants like Asuka AI, especially for pop-culture flavored prompts.",
-        },
-        "OpenAI API": {
-          title: "OpenAI API",
-          description:
-            "Handles structured reasoning, summarization, and fallback generation when reliability is non-negotiable.",
-        },
-        "Coqui XTTS-v2": {
-          title: "Coqui XTTS-v2",
-          description:
-            "Delivers lifelike TTS for in-game narrators and AI companions with custom voice cloning.",
-        },
-        ElevenLabs: {
-          title: "ElevenLabs",
-          description:
-            "Premium speech synthesis option when projects need ultra-polished, emotionally aware vocals.",
-        },
-        "Razor Pages": {
-          title: "Razor Pages",
-          description:
-            "Server-rendered .NET UI layer for dashboards that need tight coupling with backend logic.",
-        },
-        "Responsive CSS": {
-          title: "Responsive CSS",
-          description:
-            "Ensures every layout adapts from phones to ultrawide monitors without duplicating markup.",
-        },
-        Flexbox: {
-          title: "Flexbox",
-          description:
-            "Aligns cards, chip groups, and CTA rails with predictable spacing at any breakpoint.",
-        },
-        Grid: {
-          title: "CSS Grid",
-          description:
-            "Powering the skills and project galleries with surgical control over columns and rhythm.",
-        },
-        "Google Cloud VM": {
-          title: "Google Cloud VM",
-          description:
-            "Hosts production bots on hardened Debian boxes with custom monitoring and firewall rules.",
-        },
-        Caddy: {
-          title: "Caddy",
-          description:
-            "Zero-fuss HTTPS proxy that routes domains to FastAPI or .NET services with automatic certificate renewals.",
-        },
-        Systemd: {
-          title: "Systemd",
-          description:
-            "Keeps workers, bots, and voice relays supervised with restart policies and structured logs.",
-        },
-        "Docker (learning)": {
-          title: "Docker",
-          description:
-            "Containerizing each stack so local dev, CI, and cloud deploys match exactly.",
-        },
-        JWT: {
-          title: "JWT",
-          description:
-            "Stateless auth tokens powering secure dashboards, APIs, and mobile clients.",
-        },
-        Cookies: {
-          title: "Cookies",
-          description:
-            "Handle session continuity for dashboards, previews, and admin tools without leaking secrets.",
-        },
-        CSRF: {
-          title: "CSRF protection",
-          description:
-            "Guards form submissions and auth flows across every server-rendered endpoint.",
-        },
-        CORS: {
-          title: "CORS",
-          description:
-            "Locks down which frontends can hit private APIs, blocking random origins by default.",
-        },
-        "API Keys": {
-          title: "API Keys",
-          description:
-            "Simple, revocable credentials for integrating third-party services and internal tooling.",
-        },
-        Journalctl: {
-          title: "journalctl",
-          description:
-            "Primary log viewer while debugging services on Linux servers during live incidents.",
-        },
-        Postman: {
-          title: "Postman",
-          description:
-            "Runs request collections to regression-test APIs and document payloads for collaborators.",
-        },
-        Curl: {
-          title: "cURL",
-          description:
-            "Quick CLI pings for webhooks and internal endpoints when Postman would be overkill.",
-        },
-        "Console Logs": {
-          title: "Console logs",
-          description:
-            "Fastest signal while iterating on UI states and scripts before wiring up full telemetry.",
-        },
-      };
-
-      const chips = Array.from(document.querySelectorAll(".chip"));
-      if (!chips.length) return;
-
-      const popover = document.getElementById("skill-popover");
-      if (!popover) return;
-
-      const titleEl = popover.querySelector(".skill-popover__title");
-      const bodyEl = popover.querySelector(".skill-popover__body");
-      if (!titleEl || !bodyEl) return;
-
-      const ANIMATION_IN_MS = 460;
-      const ANIMATION_OUT_MS = 320;
-      let hideTimer = null;
-      let animationState = "idle";
-      let pendingChip = null;
-      let currentChip = null;
-
-      const clearHideTimer = () => {
-        if (hideTimer) {
-          window.clearTimeout(hideTimer);
-          hideTimer = null;
-        }
-      };
-
-      const isInPopover = (node) => {
-        if (!node) return false;
-        try {
-          return node === popover || popover.contains(node);
-        } catch {
-          return false;
-        }
-      };
-      const resolveNextTarget = (event) => {
-        if (!event) return null;
-        if (event.relatedTarget) return event.relatedTarget;
-        if (typeof document.elementFromPoint !== "function") return null;
-        if (typeof event.clientX !== "number" || typeof event.clientY !== "number") return null;
-        return document.elementFromPoint(event.clientX, event.clientY);
-      };
-      const isPointerInsideChip = (event, chip) => {
-        if (!chip) return false;
-        if (typeof event?.clientX !== "number" || typeof event?.clientY !== "number") return false;
-        const rect = chip.getBoundingClientRect();
-        return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
-      };
-
-      const setPopoverPosition = (rect) => {
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        const centerX = rect.left + rect.width / 2;
-        const clampedX = Math.min(Math.max(centerX, 24), viewportWidth - 24);
-        const desiredTop = rect.top - 22;
-        const safeTop = Math.min(Math.max(desiredTop, 16), viewportHeight - 24);
-        popover.style.left = `${clampedX}px`;
-        popover.style.top = `${safeTop}px`;
-      };
-
-      const playOpenAnimation = () => {
-        popover.classList.remove("is-leaving");
-        void popover.offsetWidth;
-        popover.classList.add("is-entering");
-        animationState = "opening";
-        window.setTimeout(() => {
-          if (animationState === "opening") {
-            animationState = "open";
-            popover.classList.remove("is-entering");
-          }
-        }, ANIMATION_IN_MS);
-      };
-
-      const startOpen = (chip) => {
-        pendingChip = null;
-        currentChip = chip;
-        const label = chip.textContent.trim();
-        const detail = skillDetails[label];
-        if (!detail) return;
-        clearHideTimer();
-        titleEl.textContent = detail.title || label;
-        bodyEl.textContent = detail.description;
-        setPopoverPosition(chip.getBoundingClientRect());
-        popover.hidden = false;
-        playOpenAnimation();
-      };
-
-      const requestShow = (chip) => {
-        if (!chip) return;
-        clearHideTimer();
-        if (animationState === "closing") {
-          pendingChip = chip;
-          return;
-        }
-        if (currentChip === chip && (animationState === "open" || animationState === "opening")) {
-          setPopoverPosition(chip.getBoundingClientRect());
-          return;
-        }
-        startOpen(chip);
-      };
-
-      const hidePopover = (delay = 120) => {
-        clearHideTimer();
-        hideTimer = window.setTimeout(() => {
-          if (animationState === "closing" || popover.hidden) {
-            hideTimer = null;
-            return;
-          }
-          animationState = "closing";
-          popover.classList.remove("is-entering");
-          popover.classList.add("is-leaving");
-          let fallback;
-          const finishClose = () => {
-            popover.hidden = true;
-            popover.classList.remove("is-leaving");
-            animationState = "idle";
-            popover.removeEventListener("animationend", finishClose);
-            if (fallback) {
-              window.clearTimeout(fallback);
-            }
-            if (pendingChip) {
-              const nextChip = pendingChip;
-              pendingChip = null;
-              requestShow(nextChip);
-            }
-          };
-          popover.addEventListener("animationend", finishClose);
-          fallback = window.setTimeout(() => {
-            finishClose();
-          }, ANIMATION_OUT_MS + 80);
-          hideTimer = null;
-        }, delay);
-      };
-
-      const handleEnter = (event) => {
-        requestShow(event.currentTarget);
-      };
-
-      const handleLeave = (event) => {
-        const chip = event.currentTarget;
-        const nextTarget = resolveNextTarget(event);
-        if (isInPopover(nextTarget) || isPointerInsideChip(event, chip)) {
-          clearHideTimer();
-          return;
-        }
-        hidePopover(220);
-      };
-
-      const handleBlur = (event) => {
-        const nextTarget = event?.relatedTarget;
-        if (nextTarget && (nextTarget.closest?.(".chip") || isInPopover(nextTarget))) {
-          return;
-        }
-        hidePopover(200);
-      };
-
-      const handleActivate = (event) => {
-        event.preventDefault();
-        requestShow(event.currentTarget);
-      };
-
-      const handleKey = (event) => {
-        if (event.key !== "Enter" && event.key !== " ") return;
-        event.preventDefault();
-        requestShow(event.currentTarget);
-      };
-
-      const handleTouch = (event) => {
-        const target = event.currentTarget || event.target;
-        if (!target) return;
-        requestShow(target);
-      };
-
-      popover.addEventListener("mouseenter", () => {
-        clearHideTimer();
-      });
-
-      popover.addEventListener("mouseleave", (event) => {
-        const next = resolveNextTarget(event);
-        if (next && (next.closest?.(".chip") || isInPopover(next))) {
-          clearHideTimer();
-          return;
-        }
-        hidePopover(200);
-      });
-
-      chips.forEach((chip) => {
-        const label = chip.textContent.trim();
-        if (!skillDetails[label]) return;
-        chip.dataset.skillPopover = "true";
-        chip.setAttribute("tabindex", "0");
-        chip.setAttribute("role", "button");
-        chip.setAttribute("aria-label", `${label} skill details`);
-        chip.addEventListener("mouseenter", handleEnter);
-        chip.addEventListener("mouseleave", handleLeave);
-        chip.addEventListener("focus", handleEnter);
-        chip.addEventListener("blur", handleBlur);
-        chip.addEventListener("click", handleActivate);
-        chip.addEventListener("keydown", handleKey);
-        chip.addEventListener("touchstart", handleTouch, { passive: true });
-      });
-
-      window.addEventListener(
-        "scroll",
-        () => {
-          if (popover.hidden || !currentChip) return;
-          setPopoverPosition(currentChip.getBoundingClientRect());
-        },
-        { passive: true },
-      );
-
-      window.addEventListener("resize", () => {
-        if (popover.hidden || !currentChip) return;
-        setPopoverPosition(currentChip.getBoundingClientRect());
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape") return;
-        hidePopover(0);
-      });
-
-      document.addEventListener("click", (event) => {
-        if (popover.hidden) return;
-        if (event.target.closest(".chip") || event.target.closest("#skill-popover")) return;
-        hidePopover(0);
-      });
-    })();
-  </script>
   <script>
     const openButtons = document.querySelectorAll('[data-case-target]');
     const closeTriggers = document.querySelectorAll('[data-close-case]');
@@ -1862,6 +1677,169 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       });
 
       sendButton.addEventListener("click", () => sendMessage());
+    })();
+  </script>
+  <script>
+    (function () {
+      const canvas = document.getElementById("bg-network");
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      let width, height, dpr;
+      let nodes = [];
+
+      const NODE_COUNT = 70;
+      const NODE_LINK_DISTANCE = 150;
+      const CURSOR_LINK_DISTANCE = 220;
+
+      const mouse = {
+        x: null,
+        y: null,
+        inside: false,
+      };
+
+      function resize() {
+        dpr = window.devicePixelRatio || 1;
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function createNodes() {
+        nodes = [];
+        for (let i = 0; i < NODE_COUNT; i++) {
+          nodes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: (Math.random() - 0.5) * 0.6,
+            radius: 1.5 + Math.random() * 2,
+          });
+        }
+      }
+
+      function updateNodes() {
+        for (const n of nodes) {
+          // mouse attraction field
+          if (mouse.inside && mouse.x !== null) {
+            const dx = mouse.x - n.x;
+            const dy = mouse.y - n.y;
+            const dist2 = dx * dx + dy * dy;
+
+            if (dist2 > 0.001 && dist2 < 260 * 260) {
+              const force = 0.0006;
+              const invDist = 1 / Math.sqrt(dist2);
+              n.vx += dx * invDist * force;
+              n.vy += dy * invDist * force;
+            }
+          }
+
+          // add a little noise per frame for lively motion
+          n.vx += (Math.random() - 0.5) * 0.02;
+          n.vy += (Math.random() - 0.5) * 0.02;
+
+          n.x += n.vx;
+          n.y += n.vy;
+
+          // gentle friction so velocity doesn't explode
+          n.vx *= 0.99;
+          n.vy *= 0.99;
+
+          // screen wrap
+          if (n.x < -50) n.x = width + 50;
+          if (n.x > width + 50) n.x = -50;
+          if (n.y < -50) n.y = height + 50;
+          if (n.y > height + 50) n.y = -50;
+        }
+      }
+
+      function drawLinks() {
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i];
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < NODE_LINK_DISTANCE) {
+              const alpha = 1 - dist / NODE_LINK_DISTANCE;
+              ctx.strokeStyle = "rgba(56, 189, 248," + alpha * 0.6 + ")";
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function drawCursorLinks() {
+        if (!mouse.inside || mouse.x === null) return;
+
+        for (const n of nodes) {
+          const dx = n.x - mouse.x;
+          const dy = n.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CURSOR_LINK_DISTANCE) {
+            const alpha = 1 - dist / CURSOR_LINK_DISTANCE;
+            ctx.strokeStyle = "rgba(129, 230, 217," + alpha + ")";
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(n.x, n.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      function drawNodes() {
+        for (const n of nodes) {
+          const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.radius * 3);
+          gradient.addColorStop(0, "rgba(56, 189, 248, 0.9)");
+          gradient.addColorStop(1, "rgba(56, 189, 248, 0)");
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius * 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, width, height);
+
+        updateNodes();
+        drawLinks();
+        drawCursorLinks();
+        drawNodes();
+
+        requestAnimationFrame(tick);
+      }
+
+      window.addEventListener("resize", () => {
+        resize();
+        createNodes();
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.inside = true;
+      });
+
+      window.addEventListener("mouseleave", () => {
+        mouse.inside = false;
+      });
+
+      resize();
+      createNodes();
+      tick();
     })();
   </script>
 </body>

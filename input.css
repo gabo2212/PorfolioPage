@@ -25,8 +25,16 @@
     @apply p-0;
   }
 
+  .glass-panel-overflow {
+    @apply relative z-0 overflow-visible;
+  }
+
+  .glass-panel-overflow:is(:hover, :focus-within) {
+    @apply z-[50];
+  }
+
   .chip {
-    @apply inline-flex items-center rounded-full border border-slate-300/60 px-4 py-2 text-sm font-semibold tracking-wide text-slate-700 shadow-[0_6px_20px_-12px_rgba(15,23,42,0.35)] transition duration-300 ease-out dark:border-white/20 dark:text-slate-100 dark:bg-white/5 dark:shadow-[0_10px_30px_-18px_rgba(8,15,28,0.8)];
+    @apply inline-flex items-center rounded-full border border-slate-300/60 px-4 py-2 text-sm font-semibold tracking-wide text-slate-700 shadow-[0_6px_20px_-12px_rgba(15,23,42,0.35)] transition duration-300 ease-out dark:border-white/20 dark:text-slate-100 dark:bg-white/5 dark:shadow-[0_10px_30px_-18px_rgba(8,15,28,0.8)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white/70 dark:focus-visible:ring-offset-slate-900;
   }
 
   .chip::before {
@@ -36,6 +44,37 @@
 
   .chip:hover {
     @apply -translate-y-1 border-slate-400/70 shadow-[0_16px_35px_-26px_rgba(59,130,246,0.85)] dark:border-white/30;
+  }
+
+  .skill-pill {
+    @apply relative inline-flex z-0;
+  }
+
+  .skill-pill:is(:hover, :focus-within) {
+    @apply z-[60];
+  }
+
+  .skill-tooltip {
+    @apply pointer-events-none absolute left-1/2 top-full z-[70] mt-3 w-64 -translate-x-1/2 translate-y-1 rounded-2xl border border-white/10 bg-slate-950/95 px-4 py-3 text-left text-xs text-slate-100 shadow-[0_40px_80px_-32px_rgba(2,6,23,0.95)] opacity-0 transition duration-200 ease-out;
+    @apply invisible scale-95;
+    transform-origin: top center;
+  }
+
+  .skill-pill:is(:hover, :focus-within) .skill-tooltip {
+    @apply visible translate-y-0 scale-100 opacity-100 pointer-events-auto;
+  }
+
+  .skill-tooltip::before {
+    content: "";
+    @apply absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1 rotate-45 rounded-[4px] border border-white/10 bg-slate-950/95;
+  }
+
+  .skill-tooltip__title {
+    @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-accent-200;
+  }
+
+  .skill-tooltip__body {
+    @apply mt-2 text-[13px] leading-relaxed text-slate-200;
   }
 
   .modal-panel {
@@ -140,4 +179,15 @@
       color: rgb(147 197 253);
     }
   }
+}
+
+#bg-network {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body {
+  background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
 }
