@@ -1687,6 +1687,12 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
       const ctx = canvas.getContext("2d");
       let width, height, dpr;
       let nodes = [];
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+      let isDarkMode = prefersDarkScheme.matches;
+
+      prefersDarkScheme.addEventListener("change", (event) => {
+        isDarkMode = event.matches;
+      });
 
       const NODE_COUNT = 70;
       const NODE_LINK_DISTANCE = 150;
@@ -1759,6 +1765,21 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
         }
       }
 
+      function drawBackground() {
+        const gradient = ctx.createLinearGradient(0, 0, width, height);
+        if (isDarkMode) {
+          gradient.addColorStop(0, "#020617");
+          gradient.addColorStop(0.5, "#020617");
+          gradient.addColorStop(1, "#000000");
+        } else {
+          gradient.addColorStop(0, "#f8fafc");
+          gradient.addColorStop(0.5, "#f1f5f9");
+          gradient.addColorStop(1, "#e2e8f0");
+        }
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+      }
+
       function drawLinks() {
         for (let i = 0; i < nodes.length; i++) {
           for (let j = i + 1; j < nodes.length; j++) {
@@ -1813,6 +1834,7 @@ Optimized event latency and dialogue flow for immersion and performance.</li>
 
       function tick() {
         ctx.clearRect(0, 0, width, height);
+        drawBackground();
 
         updateNodes();
         drawLinks();

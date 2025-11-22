@@ -4,7 +4,7 @@
 
 @layer components {
   .glass-panel {
-    @apply relative overflow-hidden rounded-[28px] border border-slate-200/40 bg-white/15 p-8 shadow-[0_35px_75px_-45px_rgba(15,23,42,0.65)] backdrop-blur-xl transition duration-500 ease-out dark:border-white/10 dark:bg-white/5;
+    @apply relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white/90 p-8 text-slate-900 shadow-[0_35px_75px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl transition duration-500 ease-out dark:border-white/10 dark:bg-white/5 dark:text-slate-100;
   }
 
   .glass-panel::before {
@@ -189,5 +189,11 @@
 }
 
 body {
-  background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+  background: radial-gradient(circle at top, #f8fafc 0, #f1f5f9 45%, #e2e8f0 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+  }
 }
